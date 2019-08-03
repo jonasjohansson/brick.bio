@@ -89,12 +89,12 @@ fieldset.right {
 
 #sequence select:nth-of-type(odd),
 #textarea span:nth-of-type(odd) {
-	background-color: mistyrose;
+	background-color: #bd4e00;
 }
 
 #sequence select:nth-of-type(even),
 #textarea span:nth-of-type(even) {
-	background-color: lemonchiffon;
+	background-color: rgba(0, 0, 0, 0.37);
 }
 
 #categories div {
