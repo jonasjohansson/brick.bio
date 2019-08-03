@@ -93,7 +93,7 @@ var createCategories = () => {
 		input.addEventListener('change', () => {
 			document.body.setAttribute('data-category', cat);
 		});
-		style.innerHTML += `body[data-category=${cat}] .part:not([data-category*="${cat}"]) { display: none; }\n`;
+		style.innerHTML += `body[data-category=${cat}] #parts_available .part:not([data-category*="${cat}"]) { display: none; }\n`;
 		if (cat === 'promoter') input.click();
 	}
 };
