@@ -1,42 +1,25 @@
 const SPREADSHEET_ID = '1-skfNnBOJsUmO6NR_1eDyFAH3d8GeTvpKCP2QWi-ZEw';
 const CATEGORIES = ['promoter', 'terminator', 'coding_sequence', 'rbs'];
-const HEADINGS = ['name', 'uses', 'category', 'description', ''];
+const STANDARDS = [['standard_igem', 'Standard iGEM', 'GACGCCAGGTTGAATGAATTCGCGGCCGCTTCTAGA', 'TACTAGTAGCGGCCGCTGCAGTACCTCCAAATACGG'], ['standard_coding', 'Standard Coding Sequences', 'GAATTCGCGGCCGCTTCTAGATG', 'TACTAGTAGCGGCCGCTGCAG'], ['bb-2', 'BB-2', 'GAATTCGCGGCCGCACTAGT', 'GCTAGCGCGGCCGCTGCAG'], ['bgl', 'BglBricks', 'GAATTCATGAGATCT', 'GGATCCTTACTCGAG'], ['silver', 'Silver', 'GAATTCGCGGCCGCTTCTAGA', 'GAATTCGCGGCCGCTTCTAGA'], ['freiburg', 'Freiburg', 'GAATTCGCGGCCGCTTCTAGATGGCCGGC', 'ACCGGTTAATACTAGTAGCGGCCGCTGCAG']];
+const HEADINGS = ['name', 'uses', 'category', 'description'];
 const PARTS = [];
 const EMPTY_STRING = 'Empty';
 
 var PARTS_DATA;
-var PREFIX = 'GACGCCAGGTTGAATGAATTCGCGGCCGCTTCTAGA';
-var SUFFIX = 'TACTAGTAGCGGCCGCTGCAGTACCTCCAAATACGG';
-var RBS = 'TCTAGAGAAAGAGGGGACAAACTAGATG';
-
-var $categories = document.querySelector('#categories');
-var $parts_available = document.querySelector('#parts_available');
-var $parts_available_btn = document.querySelector('#parts_available button');
+var PREFIX = '';
+var SUFFIX = '';
 
 window.addEventListener('load', () => {
 	parseGSX(SPREADSHEET_ID, init);
 	createCategories();
 	createFilter();
+	createStandards();
 });
 
 var init = data => {
+	$parts_available = document.querySelector('#parts_available');
+
 	PARTS_DATA = data;
-
-	// create table
-	table = createEl('table', $parts_available);
-	thead = createEl('thead', table);
-	tbody = createEl('tbody', table);
-	tr = createEl('tr', thead);
-
-	// create table headings
-	for (heading of HEADINGS) {
-		th = createEl('th');
-		th.innerHTML = heading;
-		tr.appendChild(th);
-		thead.appendChild(tr);
-	}
-
-	table_clone = table.cloneNode(true);
 
 	data.sort(function(a, b) {
 		return b['uses'] - a['uses'];
@@ -53,28 +36,37 @@ var init = data => {
 			community: row['community']
 		};
 
-		tr = createEl('tr', tbody);
-		td1 = createEl('td', tr);
-		td2 = createEl('td', tr);
-		td3 = createEl('td', tr);
-		td4 = createEl('td', tr);
-		td5 = createEl('td', tr);
-		link = createEl('a', td1);
-		link.href = 'http://parts.igem.org/cgi/xml/part.cgi?part=' + part.name;
+		part.url = `http://parts.igem.org/cgi/xml/part.cgi?part=${part.name}`;
+
+		div = createEl('div', $parts_available);
+
+		button = createEl('button', div);
+		button.onclick = function() {
+			addPart(part.name);
+		};
+		button.innerHTML = '+';
+
+		link = createEl('a', div);
+		link.href = `http://parts.igem.org/cgi/xml/part.cgi?part=${part.name}`;
 		link.innerHTML = part.name;
 		link.target = '_blank';
-		td2.innerHTML = part.uses;
-		td3.innerHTML = part.category;
-		td4.innerHTML = [part.description, part.community].join(' ');
-		td5.innerHTML = `<button onclick="addPart('${part.name}')">+</button>`;
-		tr.id = part.name;
-		tr.classList.add('part');
-		tr.setAttribute('data-category', part.category);
-		tr.setAttribute('data-meta', [part.name, part.description, part.direction, part.community].join(' '));
+
+		meta = createEl('span', div);
+		meta.innerHTML = ` (${part.uses})`;
+
+		desc = createEl('div', div);
+		desc.classList.add('description');
+		desc.innerHTML = part.category + ', ' + [part.description, part.community].join(' ');
+
+		div.id = part.name;
+		div.classList.add('part');
+		div.setAttribute('data-category', part.category);
+		div.setAttribute('data-meta', [part.name, part.description, part.direction, part.community].join(' '));
 	}
 };
 
 var createCategories = () => {
+	$categories = document.querySelector('#categories');
 	style = createEl('style', document.body);
 	for (let cat of CATEGORIES) {
 		group = createEl('div');
@@ -109,6 +101,25 @@ var createFilter = () => {
 	};
 };
 
+var createStandards = () => {
+	$standards = document.querySelector('#standards');
+	for (let standard of STANDARDS) {
+		div = createEl('div', $standards);
+		let input = createEl('input', div);
+		label = createEl('label', div);
+		input.type = 'radio';
+		input.name = 'standards';
+		input.id = input.value = standard[0];
+		label.innerHTML = standard[1];
+		input.onchange = () => {
+			PREFIX = standard[2];
+			SUFFIX = standard[3];
+		};
+		label.setAttribute('for', standard);
+	}
+	$standards.querySelector('input').click();
+};
+
 var update = () => {
 	$sequence = document.querySelector('#sequence');
 
@@ -130,7 +141,6 @@ var updateSequence = () => {
 	var tmp_sequence = '';
 
 	for (let select of $sequence_select) {
-		if (select.previousElementSibling.innerHTML === 'RBS') tmp_sequence += `<strong>${RBS}</strong>`;
 		var val = select.value;
 
 		if (val !== EMPTY_STRING) {
@@ -139,27 +149,10 @@ var updateSequence = () => {
 		}
 	}
 
-	document.querySelector('#textarea').innerHTML = `<strong>${PREFIX}</strong>${tmp_sequence}<strong>${SUFFIX}</strong>`;
+	document.querySelector('#textarea').innerHTML = `${PREFIX}${tmp_sequence}${SUFFIX}`;
 };
 
 /* button functions */
-
-var setParam = which => {
-	val = prompt(`Enter ${which}`);
-	if (val === null) return;
-	switch (which) {
-		case 'prefix':
-			PREFIX = val;
-			break;
-		case 'suffix':
-			SUFFIX = val;
-			break;
-		case 'rbs':
-			RBS = val;
-			break;
-	}
-	// updateSequence();
-};
 
 var addPart = part_name => {
 	var partExists = PARTS.indexOf(part_name) > -1;

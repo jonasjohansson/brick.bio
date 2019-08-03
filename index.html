@@ -12,7 +12,7 @@
 			<h2>Generate your sequence</h2>
 			<fieldset id="sequence">
 				<h3>Sequence</h3>
-				<button onclick="setParam('prefix')">PREFIX</button>
+				<button disabled>PREFIX</button>
 				<select>
 					<option>Empty</option>
 				</select>
@@ -25,7 +25,10 @@
 					<option>Empty</option>
 				</select>
 				<button onclick="addPartPlaceholder(this)">+</button>
-				<button onclick="setParam('suffix')">SUFFIX</button>
+				<button disabled>SUFFIX</button>
+			</fieldset>
+			<fieldset id="standards">
+				<h3>Assembly standard</h3>
 			</fieldset>
 			<fieldset>
 				<h3>Results</h3>
