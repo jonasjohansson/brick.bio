@@ -271,3 +271,13 @@ function compare(a, b) {
 	if (a.time > b.time) return 1;
 	return 0;
 }
+
+if (annyang) {
+	var commands = {
+		generate: function() {
+			generateSequence();
+		}
+	};
+	annyang.addCommands(commands);
+	annyang.start();
+}
