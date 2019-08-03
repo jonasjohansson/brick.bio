@@ -27,7 +27,9 @@ fieldset {
 	margin: 0;
 }
 
-/* table */
+#categories label {
+	text-transform: uppercase;
+}
 
 #parts_available {
 	height: 50vh;
