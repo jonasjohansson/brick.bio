@@ -219,9 +219,9 @@ var sayIt = () => {
 	}
 };
 
-function generateSequence() {
+var generateSequence = () => {
 	updateSequence();
-}
+};
 
 function textToSpeech() {
 	// get all voices that browser offers
