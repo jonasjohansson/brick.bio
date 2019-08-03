@@ -1,4 +1,5 @@
 const SPREADSHEET_ID = '1-skfNnBOJsUmO6NR_1eDyFAH3d8GeTvpKCP2QWi-ZEw';
+const GALLERY_ID = '1NBdYD9d4TDNCyloiUFu8qi7XwihIp1TCje0MotoESg4';
 const CATEGORIES = ['promoter', 'terminator', 'coding_sequence', 'rbs'];
 const STANDARDS = [['standard_igem', 'Standard iGEM', 'GACGCCAGGTTGAATGAATTCGCGGCCGCTTCTAGA', 'TACTAGTAGCGGCCGCTGCAGTACCTCCAAATACGG'], ['standard_coding', 'Standard Coding Sequences', 'GAATTCGCGGCCGCTTCTAGATG', 'TACTAGTAGCGGCCGCTGCAG'], ['bb-2', 'BB-2', 'GAATTCGCGGCCGCACTAGT', 'GCTAGCGCGGCCGCTGCAG'], ['bgl', 'BglBricks', 'GAATTCATGAGATCT', 'GGATCCTTACTCGAG'], ['silver', 'Silver', 'GAATTCGCGGCCGCTTCTAGA', 'GAATTCGCGGCCGCTTCTAGA'], ['freiburg', 'Freiburg', 'GAATTCGCGGCCGCTTCTAGATGGCCGGC', 'ACCGGTTAATACTAGTAGCGGCCGCTGCAG']];
 const HEADINGS = ['name', 'uses', 'category', 'description'];
@@ -62,6 +63,41 @@ var init = data => {
 		div.classList.add('part');
 		div.setAttribute('data-category', part.category);
 		div.setAttribute('data-meta', [part.name, part.description, part.direction, part.community].join(' '));
+	}
+
+	parseGSX(GALLERY_ID, init2);
+};
+
+var init2 = data2 => {
+	$gallery = document.querySelector('#gallery');
+
+	// for each data entry
+	for (let row of data2) {
+		const sequence = {
+			author: row['name'],
+			author_email: row['email'],
+			file: row['sequence'],
+			image: row['sequenceimage'],
+			timestamp: row['timestamp'],
+			comment: row['comment'],
+			note: row['note']
+		};
+
+		div = createEl('div', $gallery);
+
+		timestamp = createEl('span', div);
+		timestamp.innerHTML = sequence.timestamp;
+
+		link = createEl('a', div);
+		link.href = `mailto:${sequence.author_email}`;
+		link.innerHTML = sequence.author;
+		link.target = '_blank';
+
+		comment = createEl('p', div);
+		comment.innerHTML = ` (${sequence.comment})`;
+
+		note = createEl('p', div);
+		note.innerHTML = ` (${sequence.note})`;
 	}
 };
 

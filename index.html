@@ -8,12 +8,15 @@
 		<link rel="stylesheet" href="assets/style.css" />
 	</head>
 	<body>
-		<h1>🏳️‍🌈</h1>
 		<fieldset>
+			<h2>View others sequences</h2>
+			<fieldset id="gallery"></fieldset>
+		</fieldset>
+		<fieldset class="right">
 			<h2>Generate your sequence</h2>
 			<fieldset id="sequence">
 				<h3>Sequence</h3>
-				<button disabled>PREFIX</button>
+				<!-- <button disabled>PREFIX</button> -->
 				<select>
 					<option>Empty</option>
 				</select>
@@ -26,10 +29,11 @@
 					<option>Empty</option>
 				</select>
 				<button onclick="addPartPlaceholder(this)">+</button>
-				<button disabled>SUFFIX</button>
+				<!-- <button disabled>SUFFIX</button> -->
 			</fieldset>
 			<fieldset id="standards">
 				<h3>Assembly standard</h3>
+				<p><em>Changing the assembly standard will change the sequences of prefixes and suffixes. The prefix and suffix is added automatically at the beginning and end of the sequence.</em></p>
 			</fieldset>
 			<fieldset>
 				<h3>Results</h3>
@@ -39,10 +43,11 @@
 					<button onclick="copyClipboard()">Copy</button>
 					<button onclick="downloadFasta(this)"><a>FASTA</a></button>
 					<button onclick="sayIt()">Say it!</button>
+					<a href="https://docs.google.com/forms/d/e/1FAIpQLSfIxiFf6NlF3mtx2RNPLgVHvDl_R7lrkghhvNJFmKnNAAilwA/viewform">Share</a>
 				</div>
 			</fieldset>
 		</fieldset>
-		<fieldset>
+		<fieldset class="left">
 			<h2>Select your brick</h2>
 			<fieldset id="categories">
 				<h3>Sort by</h3>

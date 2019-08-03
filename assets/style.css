@@ -7,7 +7,8 @@
 
 body {
 	font-size: 12px;
-	font-family: 'Futura std', -apple-system, system-ui, sans-serif;
+	font-family: -apple-system, system-ui, sans-serif;
+	font-family: 'Futura std';
 	line-height: 1.5rem;
 	padding: 1rem;
 }
@@ -28,7 +29,10 @@ fieldset {
 }
 
 button {
-	filter: invert(1);
+	background-color: black;
+	color: white;
+	border: 0;
+	box-sizing: border-box;
 }
 
 #categories label {
@@ -52,16 +56,17 @@ fieldset {
 
 /* special */
 
-body > fieldset {
-	width: calc(50% - 1rem);
+fieldset.left,
+fieldset.right {
+	width: calc(50% - 0.5rem);
 }
 
-body > fieldset:nth-of-type(1) {
-	float: right;
-}
-
-body > fieldset:nth-of-type(2) {
+.left {
 	float: left;
+}
+
+.right {
+	float: right;
 }
 
 .selected {
@@ -70,10 +75,6 @@ body > fieldset:nth-of-type(2) {
 
 .selected td:nth-of-type(5) {
 	display: none;
-}
-
-textarea {
-	position: absolute;
 }
 
 #textarea {
