@@ -122,9 +122,6 @@ var update = () => {
 		option.value = part_name;
 		option.innerHTML = part_name;
 		select.appendChild(option);
-		select.addEventListener('change', () => {
-			updateSequence();
-		});
 	}
 };
 
@@ -134,7 +131,6 @@ var updateSequence = () => {
 	var tmp_sequence = '';
 
 	for (let select of $sequence_select) {
-		console.log(select.previousElementSibling.innerHTML);
 		if (select.previousElementSibling.innerHTML === 'RBS') tmp_sequence += `<strong>${RBS}</strong>`;
 		var val = select.value;
 
@@ -163,7 +159,7 @@ var setParam = which => {
 			RBS = val;
 			break;
 	}
-	updateSequence();
+	// updateSequence();
 };
 
 var addPart = part_name => {
@@ -198,13 +194,15 @@ var copyClipboard = () => {
 
 var downloadFasta = event => {
 	var sequence = document.querySelector('#textarea').textContent;
+
 	if (sequence.length === 0) {
 		alert('Generate a sequence first!');
 		return;
 	}
+
 	var name = prompt(`Enter Fasta file name`);
-	console.log(name.length);
 	if (name.length === 0) name = ID();
+
 	var fasta_sequence = `>${name}\n${sequence}`;
 	var link = event.firstElementChild;
 	link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(fasta_sequence));
@@ -220,6 +218,10 @@ var sayIt = () => {
 		textToSpeech();
 	}
 };
+
+function generateSequence() {
+	updateSequence();
+}
 
 function textToSpeech() {
 	// get all voices that browser offers
