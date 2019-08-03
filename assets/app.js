@@ -184,7 +184,7 @@ var addPart = part_name => {
 
 var addPartPlaceholder = event => {
 	var clone = event.previousElementSibling.cloneNode(true);
-	event.parentNode.insertBefore(clone, event.previousElementSibling);
+	event.parentNode.insertBefore(clone, event);
 };
 
 var copyClipboard = () => {
