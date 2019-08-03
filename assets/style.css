@@ -78,7 +78,7 @@ textarea {
 	border: 1px solid var(--border-color);
 }
 
-#sequence select:nth-of-type(even),
+#sequence select:nth-of-type(odd),
 #textarea span:nth-of-type(odd) {
 	background-color: mistyrose;
 }
