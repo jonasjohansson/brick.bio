@@ -96,7 +96,7 @@ var createFilter = () => {
 		style.innerHTML = '';
 		for (val of values) {
 			if (val.length === 0) return;
-			style.innerHTML += `.part:not([data-meta*="${val}"]) { display: none; }\n`;
+			style.innerHTML += `.part:not(.selected):not([data-meta*="${val}"]) { display: none; }\n`;
 		}
 	};
 };
