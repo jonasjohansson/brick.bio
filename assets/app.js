@@ -9,8 +9,6 @@ var PREFIX = 'GACGCCAGGTTGAATGAATTCGCGGCCGCTTCTAGA';
 var SUFFIX = 'TACTAGTAGCGGCCGCTGCAGTACCTCCAAATACGG';
 var RBS = 'TCTAGAGAAAGAGGGGACAAACTAGATG';
 
-var sequence = '';
-
 var $categories = document.querySelector('#categories');
 var $parts_available = document.querySelector('#parts_available');
 var $parts_available_btn = document.querySelector('#parts_available button');
@@ -146,9 +144,7 @@ var updateSequence = () => {
 		}
 	}
 
-	sequence = `<strong>${PREFIX}</strong>${tmp_sequence}<strong>${SUFFIX}</strong>`;
-
-	document.querySelector('#textarea').innerHTML = sequence;
+	document.querySelector('#textarea').innerHTML = `<strong>${PREFIX}</strong>${tmp_sequence}<strong>${SUFFIX}</strong>`;
 };
 
 /* button functions */
@@ -192,17 +188,23 @@ var addPartPlaceholder = event => {
 };
 
 var copyClipboard = () => {
-	document.querySelector('#textarea').select();
+	var textarea = document.querySelector('#textarea');
+	var range = document.createRange();
+	range.selectNode(textarea);
+	window.getSelection().removeAllRanges();
+	window.getSelection().addRange(range);
 	document.execCommand('copy');
 };
 
 var downloadFasta = event => {
+	var sequence = document.querySelector('#textarea').textContent;
 	if (sequence.length === 0) {
 		alert('Generate a sequence first!');
 		return;
 	}
 	var name = prompt(`Enter Fasta file name`);
-	if (name === null) name = ID();
+	console.log(name.length);
+	if (name.length === 0) name = ID();
 	var fasta_sequence = `>${name}\n${sequence}`;
 	var link = event.firstElementChild;
 	link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(fasta_sequence));

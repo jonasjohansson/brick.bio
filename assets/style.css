@@ -69,6 +69,10 @@ body > fieldset:nth-of-type(2) {
 
 /* special */
 
+textarea {
+	position: absolute;
+}
+
 #textarea {
 	word-break: break-all;
 	border: 1px solid var(--border-color);
