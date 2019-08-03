@@ -10,7 +10,15 @@ body {
 	font-family: -apple-system, system-ui, sans-serif;
 	font-family: 'Futura std';
 	line-height: 1.5rem;
-	padding: 1rem;
+}
+
+#background {
+	width: 100vw;
+	height: 10vh;
+
+	background-image: url(tex.png);
+	background-repeat: repeat-x;
+	background-size: contain;
 }
 
 h1 {
