@@ -1,5 +1,9 @@
 @import url(https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.min.css);
 
+:root {
+	--border-color: #ccc;
+}
+
 body {
 	font-size: 12px;
 	font-family: -apple-system, system-ui, sans-serif;
@@ -7,56 +11,10 @@ body {
 	padding: 1rem;
 }
 
-h2 {
-	text-transform: uppercase;
-	text-align: center;
+h2,
+h3 {
 	font-weight: normal;
 	letter-spacing: 0.01em;
-}
-
-/* table */
-
-th {
-	text-align: left;
-	text-transform: capitalize;
-}
-
-td {
-	max-width: 100px;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-td:nth-child(1) {
-	width: 10%;
-}
-
-td:nth-child(2) {
-	width: 10%;
-}
-
-td:nth-child(5) {
-	width: 5%;
-}
-
-fieldset {
-	padding: 0.5rem;
-	box-sizing: border-box;
-	margin-bottom: 1rem;
-	border-width: 1px;
-	border-style: solid;
-	/*border-image-source: linear-gradient(to bottom right, #b827fc 0%, #2c90fc 25%, #b8fd33 50%, #fec837 75%, #fd1892 100%);*/
-	/*border-image-slice: 1;*/
-}
-
-fieldset,
-textarea {
-	border-color: #ccc;
-}
-
-table {
-	width: 100%;
 }
 
 a {
@@ -70,10 +28,50 @@ label {
 	margin-left: 0.5rem;
 }
 
+/* table */
+
+table {
+	width: 100%;
+}
+
+th {
+	font-weight: normal;
+	text-align: left;
+	text-transform: capitalize;
+}
+
+td {
+	max-width: 100px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+fieldset {
+	border: 0;
+	outline: 1px solid var(--border-color);
+	padding: 1rem;
+}
+
+/* layout */
+
+body > fieldset {
+	width: calc(50% - 0.5rem);
+}
+
+body > fieldset:nth-of-type(1) {
+	float: left;
+}
+
+body > fieldset:nth-of-type(2) {
+	float: right;
+}
+
 /* special */
 
 #textarea {
 	word-break: break-all;
+	border: 1px solid var(--border-color);
 }
 
 #sequence select:nth-of-type(1),
@@ -86,20 +84,11 @@ label {
 	background-color: lemonchiffon;
 }
 
-#parts_available table {
-	width: 100%; /* Optional */
-}
-
-#parts_available table tbody {
-	display: block;
+#parts_available table tbody > div {
 	overflow: auto;
 	height: 9rem;
 	width: 100%;
 	overflow-y: auto;
-}
-
-#parts_available table thead tr {
-	display: block;
 }
 
 #categories div {
@@ -108,16 +97,6 @@ label {
 
 #categories div:not(:last-child) {
 	margin-right: 1rem;
-}
-
-#parts_available table {
-}
-
-#parts_available tbody {
-}
-
-#sequence > *:not(legend) {
-	/*width: 100%;*/
 }
 
 #sequence button {

@@ -79,7 +79,6 @@ var init = data => {
 };
 
 var createCategories = () => {
-	first = true;
 	style = createEl('style', document.body);
 	for (let cat of CATEGORIES) {
 		group = createEl('div');
@@ -97,10 +96,7 @@ var createCategories = () => {
 			document.body.setAttribute('data-category', cat);
 		});
 		style.innerHTML += `body[data-category=${cat}] .part:not([data-category*="${cat}"]) { display: none; }\n`;
-		if (first) {
-			// input.click();
-			first = false;
-		}
+		if (cat === 'promoter') input.click();
 	}
 };
 
