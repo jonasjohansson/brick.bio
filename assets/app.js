@@ -1,6 +1,6 @@
 const SPREADSHEET_ID = '1-skfNnBOJsUmO6NR_1eDyFAH3d8GeTvpKCP2QWi-ZEw';
 const CATEGORIES = ['promoter', 'terminator', 'coding_sequence', 'rbs'];
-const HEADINGS = ['name', 'uses', 'category', 'description'];
+const HEADINGS = ['name', 'uses', 'category', 'description', ''];
 const PARTS = [];
 const EMPTY_STRING = 'Empty';
 
@@ -12,7 +12,6 @@ var RBS = 'TCTAGAGAAAGAGGGGACAAACTAGATG';
 var $categories = document.querySelector('#categories');
 var $parts_available = document.querySelector('#parts_available');
 var $parts_available_btn = document.querySelector('#parts_available button');
-var $your_parts = document.querySelector('#your_parts');
 
 window.addEventListener('load', () => {
 	parseGSX(SPREADSHEET_ID, init);
@@ -38,7 +37,6 @@ var init = data => {
 	}
 
 	table_clone = table.cloneNode(true);
-	$your_parts.appendChild(table_clone);
 
 	data.sort(function(a, b) {
 		return b['uses'] - a['uses'];
@@ -93,7 +91,7 @@ var createCategories = () => {
 		input.addEventListener('change', () => {
 			document.body.setAttribute('data-category', cat);
 		});
-		style.innerHTML += `body[data-category=${cat}] #parts_available .part:not([data-category*="${cat}"]) { display: none; }\n`;
+		style.innerHTML += `body[data-category=${cat}] .part:not([data-category*="${cat}"]):not(.selected) { display: none; }\n`;
 		if (cat === 'promoter') input.click();
 	}
 };
@@ -105,6 +103,7 @@ var createFilter = () => {
 		values = event.currentTarget.value.split(/[ ,.]+/);
 		style.innerHTML = '';
 		for (val of values) {
+			if (val.length === 0) return;
 			style.innerHTML += `.part:not([data-meta*="${val}"]) { display: none; }\n`;
 		}
 	};
@@ -170,9 +169,10 @@ var addPart = part_name => {
 		return;
 	}
 
-	part_clone = document.getElementById(part_name).cloneNode(true);
-	part_clone.querySelector('td:nth-child(5)').style.display = 'none';
-	$your_parts.querySelector('table').appendChild(part_clone);
+	var part = document.getElementById(part_name);
+	var parent = document.getElementById(part_name).parentNode;
+	parent.insertBefore(part, parent.firstElementChild);
+	part.classList.add('selected');
 
 	PARTS.push(part_name);
 	update();

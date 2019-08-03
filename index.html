@@ -9,28 +9,17 @@
 	</head>
 	<body>
 		<fieldset>
-			<fieldset id="categories">
-				<h3>Sort by</h3>
-				<div>
-					<label for="keywords">Keywords</label>
-					<input type="text" id="keywords" name="keywords" />
-				</div>
-			</fieldset>
-			<fieldset id="parts_available">
-				<h3>Parts</h3>
-			</fieldset>
-		</fieldset>
-		<fieldset>
-			<fieldset id="your_parts">
-				<h3>Collection</h3>
-			</fieldset>
+			<h2>Generate your sequence</h2>
 			<fieldset id="sequence">
 				<h3>Sequence</h3>
 				<button onclick="setParam('prefix')">PREFIX</button>
 				<select>
 					<option>Empty</option>
 				</select>
-				<button onclick="addPartPlaceholder(this)">+</button>
+				<select>
+					<option>Empty</option>
+				</select>
+				<!-- <button onclick="addPartPlaceholder(this)">+</button> -->
 				<!-- <button onclick="setParam('rbs')">RBS</button> -->
 				<select>
 					<option>Empty</option>
@@ -48,6 +37,17 @@
 					<button onclick="sayIt()">Say it!</button>
 				</div>
 			</fieldset>
+		</fieldset>
+		<fieldset>
+			<h2>Select your brick</h2>
+			<fieldset id="categories">
+				<h3>Sort by</h3>
+				<div>
+					<label for="keywords">Keywords</label>
+					<input type="text" id="keywords" name="keywords" />
+				</div>
+			</fieldset>
+			<fieldset id="parts_available"></fieldset>
 		</fieldset>
 		<script src="assets/parse-gsx-ajax.js"></script>
 		<script src="assets/parse-json.js"></script>

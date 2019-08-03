@@ -32,6 +32,7 @@ label {
 
 table {
 	width: 100%;
+	table-layout: fixed;
 }
 
 th {
@@ -40,11 +41,34 @@ th {
 	text-transform: capitalize;
 }
 
+tr td:last-of-type {
+	text-align: right;
+}
+
+th:nth-of-type(1) {
+	width: 15%;
+}
+
+th:nth-of-type(2) {
+	width: 8%;
+}
+
+th:nth-of-type(3),
+th:nth-of-type(4) {
+	width: 35%;
+}
+
+th:nth-of-type(5) {
+	text-align: right;
+}
+
 td {
-	max-width: 100px;
+	/*max-width: 100px;*/
 	overflow: hidden;
 	text-overflow: ellipsis;
-	white-space: nowrap;
+	vertical-align: top;
+	line-height: 1;
+	/*white-space: nowrap;*/
 }
 
 fieldset {
@@ -53,21 +77,15 @@ fieldset {
 	padding: 1rem;
 }
 
-/* layout */
-
-body > fieldset {
-	width: calc(50% - 0.5rem);
-}
-
-body > fieldset:nth-of-type(1) {
-	float: left;
-}
-
-body > fieldset:nth-of-type(2) {
-	float: right;
-}
-
 /* special */
+
+.selected {
+	background-color: rgba(255, 0, 0, 0.1);
+}
+
+.selected td:nth-of-type(5) {
+	display: none;
+}
 
 textarea {
 	position: absolute;
