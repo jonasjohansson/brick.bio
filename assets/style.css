@@ -35,6 +35,11 @@ button {
 	box-sizing: border-box;
 }
 
+button a {
+	color: white;
+	text-decoration: none;
+}
+
 #categories label {
 	text-transform: uppercase;
 }
