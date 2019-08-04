@@ -93,10 +93,6 @@ h2 {
 
 /* sections */
 
-section:nth-of-type(odd) {
-	background-color: #f6f6f6;
-}
-
 #bricks {
 	padding: 0;
 }
@@ -182,10 +178,20 @@ body.dragging #bricks_sequence {
 		height: 40vh;
 		overflow: scroll;
 	}
+	section {
+		width: 50%;
+	}
+	#bricks_builder {
+		float: right;
+		background-color: #f6f6f6;
+	}
 }
 /* on small */
 
 @media (max-width: 799px) {
+	section:nth-of-type(odd) {
+		background-color: #f6f6f6;
+	}
 	#bricks_sequence .brick_box {
 		width: 100%;
 	}
