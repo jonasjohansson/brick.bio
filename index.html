@@ -3,66 +3,40 @@
 	<head>
 		<title>Brick</title>
 		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,user-scalable=no" />
 		<script src="https://unpkg.com/jquery@3.4.1/dist/jquery.min.js"></script>
+		<script src="https://unpkg.com/jqueryui@1.11.1/jquery-ui.js"></script>
 		<script src="//cdnjs.cloudflare.com/ajax/libs/annyang/2.6.0/annyang.min.js"></script>
-		<link rel="stylesheet" href="assets/style.css" />
+		<!-- <link rel="stylesheet" href="assets/style.css" /> -->
+		<link rel="stylesheet" href="assets/bricks.css" />
 	</head>
-	<body>
-		<div id="background"></div>
-		<h1>Stanley KuBrick</h1>
-		<fieldset>
-			<h2>View others sequences</h2>
-			<fieldset id="gallery"></fieldset>
-		</fieldset>
-		<br />
-		<fieldset class="right">
-			<h2>Generate your sequence</h2>
-			<fieldset id="sequence">
-				<h3>Sequence</h3>
-				<!-- <button disabled>PREFIX</button> -->
-				<select>
-					<option>Empty</option>
-				</select>
-				<select>
-					<option>Empty</option>
-				</select>
-				<!-- <button onclick="addPartPlaceholder(this)">+</button> -->
-				<!-- <button onclick="setParam('rbs')">RBS</button> -->
-				<select>
-					<option>Empty</option>
-				</select>
-				<button onclick="addPartPlaceholder(this)">+</button>
-				<!-- <button disabled>SUFFIX</button> -->
-			</fieldset>
-			<fieldset id="standards">
-				<h3>Assembly standard</h3>
-				<p><em>Changing the assembly standard will change the sequences of prefixes and suffixes. The prefix and suffix is added automatically at the beginning and end of the sequence.</em></p>
-			</fieldset>
-			<fieldset>
-				<h3>Results</h3>
-				<div id="textarea" contenteditable="true"></div>
-				<div>
-					<button onclick="generateSequence()">Generate</button>
-					<button onclick="copyClipboard()">Copy</button>
-					<button onclick="downloadFasta(this)"><a>FASTA</a></button>
-					<button onclick="sayIt()">Say it!</button>
-					<button><a href="https://docs.google.com/forms/d/e/1FAIpQLSfIxiFf6NlF3mtx2RNPLgVHvDl_R7lrkghhvNJFmKnNAAilwA/viewform" target="_blank">Share</a></button>
-				</div>
-			</fieldset>
-		</fieldset>
-		<fieldset class="left">
-			<h2>Select your brick</h2>
-			<fieldset id="categories">
-				<h3>Sort by</h3>
-				<div>
-					<label for="keywords">Keywords</label>
-					<input type="text" id="keywords" name="keywords" />
-				</div>
-			</fieldset>
-			<fieldset id="parts_available"></fieldset>
-		</fieldset>
+	<body class="loading">
+		<h1>Brick 🏳️‍🌈</h1>
+		<section id="bricks_sequence_standard">
+			<h2>Assembly standard</h2>
+			<p><em>Changing the assembly standard will change the sequences of prefixes and suffixes. The prefix and suffix is added automatically at the beginning and end of the sequence.</em></p>
+		</section>
+		<section>
+			<h2>Sequence builder</h2>
+			<p><em>Drag bricks from the registry and drop here. You can re-arrange the order afterwards.</em></p>
+			<div id="bricks_sequence" class="brick_list drag-sort-enable"></div>
+			<p><button onclick="generateSequence()">Generate sequence</button></p>
+		</section>
+		<section>
+			<div id="textarea" contenteditable="true"></div>
+			<p>
+				<button onclick="copyClipboard()">Copy</button>
+				<button onclick="downloadFasta(this)"><a>Fasta</a></button>
+				<button><a href="https://docs.google.com/forms/d/e/1FAIpQLSfIxiFf6NlF3mtx2RNPLgVHvDl_R7lrkghhvNJFmKnNAAilwA/viewform" target="_blank">Share</a></button>
+			</p>
+		</section>
+		<section id="bricks_filter">
+			<h2>Bricks</h2>
+		</section>
+		<section id="bricks" class="brick_list"></section>
 		<script src="assets/parse-gsx-ajax.js"></script>
 		<script src="assets/parse-json.js"></script>
+		<script src="assets/dragdrop.js"></script>
 		<script src="assets/app.js"></script>
 	</body>
 </html>

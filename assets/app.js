@@ -1,4 +1,3 @@
-const SPREADSHEET_ID = '1-skfNnBOJsUmO6NR_1eDyFAH3d8GeTvpKCP2QWi-ZEw';
 const GALLERY_ID = '1NBdYD9d4TDNCyloiUFu8qi7XwihIp1TCje0MotoESg4';
 const CATEGORIES = ['promoter', 'terminator', 'coding_sequence', 'rbs'];
 const STANDARDS = [['standard_igem', 'Standard iGEM', 'GACGCCAGGTTGAATGAATTCGCGGCCGCTTCTAGA', 'TACTAGTAGCGGCCGCTGCAGTACCTCCAAATACGG'], ['standard_coding', 'Standard Coding Sequences', 'GAATTCGCGGCCGCTTCTAGATG', 'TACTAGTAGCGGCCGCTGCAG'], ['bb-2', 'BB-2', 'GAATTCGCGGCCGCACTAGT', 'GCTAGCGCGGCCGCTGCAG'], ['bgl', 'BglBricks', 'GAATTCATGAGATCT', 'GGATCCTTACTCGAG'], ['silver', 'Silver', 'GAATTCGCGGCCGCTTCTAGA', 'GAATTCGCGGCCGCTTCTAGA'], ['freiburg', 'Freiburg', 'GAATTCGCGGCCGCTTCTAGATGGCCGGC', 'ACCGGTTAATACTAGTAGCGGCCGCTGCAG']];
@@ -6,27 +5,31 @@ const HEADINGS = ['name', 'uses', 'category', 'description'];
 const PARTS = [];
 const EMPTY_STRING = 'Empty';
 
-var PARTS_DATA;
+var ALL_BRICKS;
 var PREFIX = '';
 var SUFFIX = '';
 
 window.addEventListener('load', () => {
-	parseGSX(SPREADSHEET_ID, init);
-	createCategories();
-	createFilter();
-	createStandards();
+	parseGSX('1-skfNnBOJsUmO6NR_1eDyFAH3d8GeTvpKCP2QWi-ZEw', init);
 });
 
 var init = data => {
-	$parts_available = document.querySelector('#parts_available');
-
-	PARTS_DATA = data;
+	document.body.classList.remove('loading');
+	ALL_BRICKS = data;
 
 	data.sort(function(a, b) {
 		return b['uses'] - a['uses'];
 	});
 
-	// for each data entry
+	createBricks(data);
+	createBricksSequence();
+	createFilter();
+	createStandards();
+};
+
+var createBricks = data => {
+	$bricks = document.querySelector('#bricks');
+
 	for (let row of data) {
 		const part = {
 			name: row['name'],
@@ -37,75 +40,40 @@ var init = data => {
 			community: row['community']
 		};
 
-		part.url = `http://parts.igem.org/cgi/xml/part.cgi?part=${part.name}`;
+		$brick = createEl('div', $bricks);
+		$brick.classList.add('brick');
 
-		div = createEl('div', $parts_available);
+		$brick.setAttribute('data-category', part.category);
+		$brick.setAttribute('data-meta', [part.name, part.description, part.direction, part.community].join(' '));
 
-		button = createEl('button', div);
-		button.onclick = function() {
-			addPart(part.name);
-		};
-		button.innerHTML = '+';
+		$brick_box = createEl('button', $brick);
+		$brick_box.classList.add('brick_box');
+		$brick_box.id = row['name'];
+		$brick_box.setAttribute('draggable', true);
+		$brick_box.textContent = row['name'];
+		$brick_box.addEventListener('dragstart', dragstart);
 
-		link = createEl('a', div);
-		link.href = `http://parts.igem.org/cgi/xml/part.cgi?part=${part.name}`;
-		link.innerHTML = part.name;
-		link.target = '_blank';
-
-		meta = createEl('span', div);
-		meta.innerHTML = ` (${part.uses})`;
-
-		desc = createEl('div', div);
-		desc.classList.add('description');
-		desc.innerHTML = part.category + ', ' + [part.description, part.community].join(' ');
-
-		div.id = part.name;
-		div.classList.add('part');
-		div.setAttribute('data-category', part.category);
-		div.setAttribute('data-meta', [part.name, part.description, part.direction, part.community].join(' '));
-	}
-
-	parseGSX(GALLERY_ID, init2);
-};
-
-var init2 = data2 => {
-	$gallery = document.querySelector('#gallery');
-
-	// for each data entry
-	for (let row of data2) {
-		const sequence = {
-			author: row['name'],
-			author_email: row['email'],
-			file: row['sequence'],
-			image: row['sequenceimage'],
-			timestamp: row['timestamp'],
-			comment: row['comment'],
-			note: row['note']
-		};
-
-		div = createEl('div', $gallery);
-
-		timestamp = createEl('span', div);
-		timestamp.innerHTML = sequence.timestamp;
-
-		link = createEl('a', div);
-		link.href = `mailto:${sequence.author_email}`;
-		link.innerHTML = sequence.author;
-		link.target = '_blank';
-
-		comment = createEl('p', div);
-		comment.innerHTML = ` (${sequence.comment})`;
-
-		note = createEl('p', div);
-		note.innerHTML = ` (${sequence.note})`;
+		$brick_description = createEl('div', $brick);
+		$brick_description.classList.add('brick_description');
+		$brick_description.textContent = row['description'];
 	}
 };
 
-var createCategories = () => {
-	$categories = document.querySelector('#categories');
+var createBricksSequence = () => {
+	$bricks_sequence = document.querySelector('#bricks_sequence');
+	$bricks_sequence.addEventListener('dragover', dragover);
+	$bricks_sequence.addEventListener('dragenter', dragenter);
+	$bricks_sequence.addEventListener('drop', drop);
+};
+
+var createFilter = () => {
+	$filter = document.querySelector('#bricks_filter');
+
+	filter_categories = createEl('div', $filter);
 	style = createEl('style', document.body);
+
 	for (let cat of CATEGORIES) {
-		group = createEl('div');
+		group = createEl('div', filter_categories);
 		label = createEl('label');
 		input = createEl('input');
 		input.type = 'radio';
@@ -114,103 +82,79 @@ var createCategories = () => {
 		label.setAttribute('for', cat);
 		group.appendChild(input);
 		group.appendChild(label);
-		// $categories.appendChild(group);
-		$categories.insertBefore(group, $categories.lastElementChild);
 		input.addEventListener('change', () => {
 			document.body.setAttribute('data-category', cat);
 		});
-		style.innerHTML += `body[data-category=${cat}] .part:not([data-category*="${cat}"]):not(.selected) { display: none; }\n`;
+		style.innerHTML += `body[data-category=${cat}] .brick:not([data-category*="${cat}"]):not(.selected) { display: none; }\n`;
 		if (cat === 'promoter') input.click();
 	}
-};
 
-var createFilter = () => {
-	$keywords = document.querySelector('#keywords');
+	filter_keyword = createEl('input', $filter);
 	style = createEl('style', document.body);
-	$keywords.onkeyup = event => {
+
+	filter_keyword.onkeyup = event => {
 		values = event.currentTarget.value.split(/[ ,.]+/);
 		style.innerHTML = '';
 		for (val of values) {
 			if (val.length === 0) return;
-			style.innerHTML += `.part:not(.selected):not([data-meta*="${val}"]) { display: none; }\n`;
+			style.innerHTML += `.brick:not(.selected):not([data-meta*="${val}"]) { display: none; }\n`;
 		}
 	};
 };
 
 var createStandards = () => {
-	$standards = document.querySelector('#standards');
+	$standard = document.querySelector('#bricks_sequence_standard');
+	select = createEl('select', $standard);
 	for (let standard of STANDARDS) {
-		div = createEl('div', $standards);
-		let input = createEl('input', div);
-		label = createEl('label', div);
-		input.type = 'radio';
-		input.name = 'standards';
-		input.id = input.value = standard[0];
-		label.innerHTML = standard[1];
-		input.onchange = () => {
-			PREFIX = standard[2];
-			SUFFIX = standard[3];
-		};
+		let option = createEl('option', select);
+		option.name = 'standards';
+		option.id = option.value = standard[0];
+		option.textContent = standard[1];
 		label.setAttribute('for', standard);
 	}
-	$standards.querySelector('input').click();
+	select.onchange = event => {
+		index = event.target.selectedIndex;
+		PREFIX = STANDARDS[index][2];
+		SUFFIX = STANDARDS[index][3];
+	};
+
+	PREFIX = STANDARDS[0][2];
+	SUFFIX = STANDARDS[0][3];
 };
 
-var update = () => {
-	$sequence = document.querySelector('#sequence');
+function dragstart(e) {
+	e.dataTransfer.setData('text', e.target.id);
+}
 
-	$sequence_select = document.querySelectorAll('#sequence select');
+function dragover(e) {
+	e.preventDefault();
+}
 
-	var part_name = PARTS[PARTS.length - 1];
+function dragenter(e) {
+	e.preventDefault();
+}
 
-	for (let select of $sequence_select) {
-		var option = document.createElement('option');
-		option.value = part_name;
-		option.innerHTML = part_name;
-		select.appendChild(option);
-	}
-};
+function dragend(e) {
+	e.preventDefault();
+}
 
-var updateSequence = () => {
-	$sequence_select = document.querySelectorAll('#sequence select');
-
-	var tmp_sequence = '';
-
-	for (let select of $sequence_select) {
-		var val = select.value;
-
-		if (val !== EMPTY_STRING) {
-			var part = getObjects(PARTS_DATA, 'name', val);
-			tmp_sequence += `<span>${part[0].partsequence.toUpperCase()}</span>`;
-		}
-	}
-
-	document.querySelector('#textarea').innerHTML = `${PREFIX}${tmp_sequence}${SUFFIX}`;
-};
-
-/* button functions */
-
-var addPart = part_name => {
-	var partExists = PARTS.indexOf(part_name) > -1;
-
-	if (partExists) {
-		alert('Already added!');
+function drop(e) {
+	id = e.dataTransfer.getData('text');
+	if (id.includes('clone')) {
+		e.preventDefault();
 		return;
 	}
+	el = document.getElementById(id);
+	let clone = el.cloneNode(true);
+	el.parentNode.classList.add('selected');
+	clone.addEventListener('dblclick', function() {
+		clone.parentNode.removeChild(clone);
+	});
+	e.currentTarget.appendChild(clone);
+	enableDragSort('drag-sort-enable');
+}
 
-	var part = document.getElementById(part_name);
-	var parent = document.getElementById(part_name).parentNode;
-	parent.insertBefore(part, parent.firstElementChild);
-	part.classList.add('selected');
-
-	PARTS.push(part_name);
-	update();
-};
-
-var addPartPlaceholder = event => {
-	var clone = event.previousElementSibling.cloneNode(true);
-	event.parentNode.insertBefore(clone, event);
-};
+/* button functions */
 
 var copyClipboard = () => {
 	var textarea = document.querySelector('#textarea');
@@ -221,7 +165,7 @@ var copyClipboard = () => {
 	document.execCommand('copy');
 };
 
-var downloadFasta = event => {
+var getFasta = event => {
 	var sequence = document.querySelector('#textarea').textContent;
 
 	if (sequence.length === 0) {
@@ -249,7 +193,17 @@ var sayIt = () => {
 };
 
 var generateSequence = () => {
-	updateSequence();
+	bricks = document.querySelectorAll('#bricks_sequence > *');
+
+	var sequence = '';
+
+	for (let brick of bricks) {
+		console.log(brick.id);
+		var part = getObjects(ALL_BRICKS, 'name', brick.id);
+		sequence += `<span>${part[0].partsequence.toUpperCase()}</span>`;
+	}
+
+	document.querySelector('#textarea').innerHTML = `${PREFIX}${sequence}${SUFFIX}`;
 };
 
 function textToSpeech() {

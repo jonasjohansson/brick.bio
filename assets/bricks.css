@@ -1,0 +1,72 @@
+@import url(https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.min.css);
+
+.loading > * {
+	opacity: 0.5;
+	pointer-events: none;
+}
+body {
+}
+
+#bricks_sequence {
+	outline: 1px dashed black;
+	padding: 1rem;
+}
+
+#bricks_sequence > *:not(:last-child) {
+	margin-right: 1rem;
+}
+
+input,
+label {
+	padding: 0.5rem;
+}
+
+body > * {
+	padding: 1rem;
+}
+
+section:nth-of-type(odd) {
+	background-color: lemonchiffon;
+}
+
+section:not(:last-of-type) {
+	/*margin-bottom: 1rem;*/
+}
+
+label {
+	text-transform: capitalize;
+}
+
+*[contenteditable='true'] {
+	outline: 1px solid black;
+}
+
+.brick {
+	padding: 0.5rem;
+}
+
+.brick_box {
+	background-color: #111;
+	color: #eee;
+	border: 0;
+	padding: 0.5rem;
+	width: 140px;
+	text-align: center;
+}
+
+.brick > * {
+	display: inline-block;
+}
+
+.brick_wrap {
+	display: flex;
+	padding: 0.5rem;
+}
+
+.brick_wrap:nth-child(odd) {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+.brick_description {
+	margin-left: 1rem;
+}

@@ -8,17 +8,7 @@
 body {
 	font-size: 12px;
 	font-family: -apple-system, system-ui, sans-serif;
-	font-family: 'Futura std';
 	line-height: 1.5rem;
-}
-
-#background {
-	width: 100vw;
-	height: 10vh;
-
-	background-image: url(tex.png);
-	background-repeat: repeat-x;
-	background-size: contain;
 }
 
 h1 {
@@ -73,21 +63,8 @@ fieldset {
 
 /* special */
 
-fieldset.left,
-fieldset.right {
-	width: calc(50% - 0.5rem);
-}
-
-.left {
-	float: left;
-}
-
-.right {
-	float: right;
-}
-
 .selected {
-	border: 1px solid black;
+	outline: 1px solid black;
 }
 
 .selected td:nth-of-type(5) {
