@@ -15,11 +15,11 @@ var init = data => {
 		author.href = 'mailto:' + row['email'];
 		author.textContent = row['name'];
 
-		sequence = createEl('textarea', $sequence);
-		sequence.textContent = row['sequence'];
-
 		comment = createEl('div', $sequence);
 		comment.textContent = row['comment'];
+
+		note = createEl('textarea', $note);
+		note.textContent = row['note'];
 
 		p = createEl('p', $sequence);
 		download = createEl('a', p);
