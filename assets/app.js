@@ -116,7 +116,6 @@ var createStandards = () => {
 		option.name = 'standards';
 		option.id = option.value = standard[0];
 		option.textContent = standard[1];
-		label.setAttribute('for', standard);
 	}
 	select.onchange = event => {
 		index = event.target.selectedIndex;
@@ -204,7 +203,6 @@ var generateSequence = () => {
 	var sequence = '';
 
 	for (let brick of bricks) {
-		console.log(brick.id);
 		var part = getObjects(ALL_BRICKS, 'name', brick.id);
 		sequence += `<span>${part[0].partsequence.toUpperCase()}</span>`;
 	}
@@ -259,14 +257,4 @@ function compare(a, b) {
 	if (a.time < b.time) return -1;
 	if (a.time > b.time) return 1;
 	return 0;
-}
-
-if (annyang) {
-	var commands = {
-		generate: function() {
-			generateSequence();
-		}
-	};
-	annyang.addCommands(commands);
-	annyang.start();
 }
