@@ -9,7 +9,6 @@
 
 html {
 	font-size: 13px;
-	font-weight: lighter;
 }
 
 body {
@@ -19,11 +18,11 @@ body {
 	line-height: 1.5rem;
 }
 
-/*body.loading {
+body.loading {
 	opacity: 0;
 	pointer-events: none;
 }
-*/
+
 body > * {
 	padding: 1rem;
 }

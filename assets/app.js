@@ -2,8 +2,6 @@ const GALLERY_ID = '1NBdYD9d4TDNCyloiUFu8qi7XwihIp1TCje0MotoESg4';
 const CATEGORIES = ['promoter', 'terminator', 'coding_sequence', 'rbs'];
 const STANDARDS = [['standard_igem', 'Standard iGEM', 'GACGCCAGGTTGAATGAATTCGCGGCCGCTTCTAGA', 'TACTAGTAGCGGCCGCTGCAGTACCTCCAAATACGG'], ['standard_coding', 'Standard Coding Sequences', 'GAATTCGCGGCCGCTTCTAGATG', 'TACTAGTAGCGGCCGCTGCAG'], ['bb-2', 'BB-2', 'GAATTCGCGGCCGCACTAGT', 'GCTAGCGCGGCCGCTGCAG'], ['bgl', 'BglBricks', 'GAATTCATGAGATCT', 'GGATCCTTACTCGAG'], ['silver', 'Silver', 'GAATTCGCGGCCGCTTCTAGA', 'GAATTCGCGGCCGCTTCTAGA'], ['freiburg', 'Freiburg', 'GAATTCGCGGCCGCTTCTAGATGGCCGGC', 'ACCGGTTAATACTAGTAGCGGCCGCTGCAG']];
 const HEADINGS = ['name', 'uses', 'category', 'description'];
-const PARTS = [];
-const EMPTY_STRING = 'Empty';
 
 var ALL_BRICKS;
 var PREFIX = '';
@@ -48,6 +46,7 @@ var createBricks = data => {
 		$brick.classList.add('brick');
 
 		$brick.setAttribute('data-category', part.category);
+
 		$brick.setAttribute('data-meta', [part.name, part.description, part.direction, part.community].join(' '));
 
 		$brick_box = createEl('button', $brick);
@@ -63,13 +62,14 @@ var createBricks = data => {
 
 		$brick_description = createEl('div', $brick);
 		$brick_description.classList.add('brick_description');
-		$brick_description.textContent = row['description'];
+		$brick_description.innerHTML = `<sub>${row['description']}</sub> ${row['description']} <sup>${row['uses']}</sup> `;
 	}
 };
 
 var createBricksSequence = () => {
 	$bricks_sequence = document.querySelector('#bricks_sequence');
 	$bricks_sequence.addEventListener('dragover', dragover);
+	$bricks_sequence.addEventListener('dragleave', dragleave);
 	$bricks_sequence.addEventListener('dragenter', dragenter);
 	$bricks_sequence.addEventListener('drop', drop);
 };
@@ -138,9 +138,15 @@ var createStandards = () => {
 
 function dragstart(e) {
 	e.dataTransfer.setData('text', e.target.id);
+	e.target.classList.add('highlight');
 }
 
 function dragover(e) {
+	e.preventDefault();
+	e.target.classList.remove('highlight');
+}
+
+function dragleave(e) {
 	e.preventDefault();
 }
 
@@ -186,7 +192,7 @@ var copyClipboard = () => {
 };
 
 var getFasta = event => {
-	var sequence = document.querySelector('#textarea').textContent;
+	sequence = document.querySelector('#textarea').textContent;
 
 	if (sequence.length === 0) {
 		alert('Generate a sequence first!');
@@ -203,13 +209,7 @@ var getFasta = event => {
 };
 
 var sayIt = () => {
-	if (window.speechSynthesis.getVoices().length == 0) {
-		window.speechSynthesis.addEventListener('voiceschanged', function() {
-			textToSpeech();
-		});
-	} else {
-		textToSpeech();
-	}
+	textToSpeech(document.querySelector('#textarea').textContent);
 };
 
 var generateSequence = () => {
@@ -225,31 +225,11 @@ var generateSequence = () => {
 	document.querySelector('#textarea').innerHTML = `${PREFIX}${sequence}${SUFFIX}`;
 };
 
-function textToSpeech() {
-	// get all voices that browser offers
-	var available_voices = window.speechSynthesis.getVoices();
-
-	// this will hold an english voice
-	var english_voice = '';
-
-	// find voice by language locale "en-US"
-	// if not then select the first voice
-	for (var i = 0; i < available_voices.length; i++) {
-		if (available_voices[i].lang === 'en-US') {
-			english_voice = available_voices[i];
-			break;
-		}
-	}
-	if (english_voice === '') english_voice = available_voices[0];
-
-	// new SpeechSynthesisUtterance object
+function textToSpeech(what) {
 	var utter = new SpeechSynthesisUtterance();
 	utter.rate = 10;
-	utter.pitch = 10;
-	utter.text = sequence;
-	utter.voice = english_voice;
-
-	// speak
+	utter.pitch = 8;
+	utter.text = what;
 	window.speechSynthesis.speak(utter);
 }
 
