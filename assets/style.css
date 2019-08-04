@@ -70,8 +70,8 @@ h2 {
 
 /* sections */
 
-section:nth-of-type(even) {
-	background-color: #e6e6e6;
+section:nth-of-type(odd) {
+	background-color: #f6f6f6;
 }
 
 section:not(:last-of-type) {

@@ -10,6 +10,9 @@ var PREFIX = '';
 var SUFFIX = '';
 
 window.addEventListener('load', () => {
+	for (var a of document.querySelectorAll('a')) {
+		a.target = '_blank';
+	}
 	parseGSX('1-skfNnBOJsUmO6NR_1eDyFAH3d8GeTvpKCP2QWi-ZEw', init);
 });
 
