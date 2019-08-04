@@ -84,7 +84,7 @@ h2 {
 	font-size: 10px;
 	line-height: 1.3;
 	display: inline-block;
-	vertical-align: middle;
+	vertical-align: top;
 }
 
 .brick_description span {
@@ -110,6 +110,11 @@ section:nth-of-type(odd) {
 #bricks_sequence {
 	outline: 1px dashed var(--border-color);
 	padding: 1rem;
+}
+
+#bricks_seqeuence,
+#textarea {
+	background-color: white;
 }
 
 #bricks_sequence > *:not(:last-child) {
