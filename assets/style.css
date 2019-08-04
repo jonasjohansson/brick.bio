@@ -14,6 +14,10 @@ body > * {
 	padding: 1rem;
 }
 
+html {
+	font-size: 12px;
+}
+
 input,
 label {
 	padding: 0.5rem;
@@ -77,6 +81,10 @@ section:not(:last-of-type) {
 	/*margin-bottom: 1rem;*/
 }
 
+#bricks {
+	padding: 0;
+}
+
 #bricks_sequence {
 	outline: 1px dashed black;
 	padding: 1rem;
@@ -116,7 +124,7 @@ section:not(:last-of-type) {
 
 /* on small */
 
-@media (max-width: 600px) {
+@media (max-width: 800px) {
 	#bricks_sequence .brick_box {
 		width: 100%;
 	}
