@@ -51,12 +51,6 @@ h2 {
 	margin-top: 0;
 }
 
-hr {
-	height: 0;
-	border: 0;
-	border-top: 1px solid var(--border-color);
-}
-
 /* brick */
 
 .brick {
