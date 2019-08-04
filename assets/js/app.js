@@ -167,24 +167,25 @@ function dragend(e) {
 }
 
 function drop(e) {
-	id = e.dataTransfer.getData('text');
-	if (id.includes('clone')) {
+	id = e.dataTransfer.getData('text') || null;
+	if (id === null || id.includes('clone')) {
 		e.preventDefault();
 		return;
 	}
 	clone = createClone(id);
 	e.currentTarget.appendChild(clone);
-	enableDragSort('drag-sort-enable');
 }
 
 var createClone = id => {
 	let el = document.getElementById(id);
 	let clone = el.cloneNode(true);
+	clone.id = 'clone-' + id;
 	el.parentNode.classList.add('selected');
 	clone.addEventListener('dblclick', function() {
 		clone.parentNode.removeChild(clone);
 		el.parentNode.classList.remove('selected');
 	});
+	enableDragSort('drag-sort-enable');
 	return clone;
 };
 
