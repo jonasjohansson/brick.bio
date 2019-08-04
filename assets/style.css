@@ -1,95 +1,81 @@
 @import url(https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.min.css);
-@import url(stylesheet.css);
 
-:root {
-	--border-color: #ccc;
+body.loading {
+	opacity: 0.5;
+	pointer-events: none;
 }
 
-body {
-	font-size: 12px;
-	font-family: -apple-system, system-ui, sans-serif;
-	line-height: 1.5rem;
+body > * {
+	padding: 1rem;
 }
 
-h1 {
-	text-align: center;
-}
-
-h2,
-h3 {
-	font-weight: normal;
-	letter-spacing: 0.01em;
+input,
+label {
+	padding: 0.5rem;
 }
 
 label {
 	text-transform: capitalize;
-	margin-left: 0.5rem;
 }
 
-fieldset {
-	margin: 0;
+/* brick */
+
+.brick {
+	padding: 0.5rem;
 }
 
-button {
-	background-color: black;
-	color: white;
+.brick_box {
+	background-color: #111;
+	color: #eee;
 	border: 0;
-	box-sizing: border-box;
+	padding: 0.5rem;
+	width: 140px;
+	text-align: center;
 }
 
-button a {
-	color: white;
-	text-decoration: none;
+.brick > * {
+	display: inline-block;
 }
 
-#categories label {
-	text-transform: uppercase;
+.brick_wrap {
+	display: flex;
+	padding: 0.5rem;
 }
 
-#parts_available {
-	height: 50vh;
-	overflow: scroll;
+.brick_wrap:nth-child(odd) {
+	background-color: rgba(0, 0, 0, 0.05);
 }
 
-#parts_available button {
-	margin-right: 0.5rem;
+.brick_description {
+	margin-left: 1rem;
 }
 
-fieldset {
-	border: 0;
-	outline: 1px solid var(--border-color);
+/* sections */
+
+section:nth-of-type(odd) {
+	background-color: #ffbf92;
+}
+
+section:not(:last-of-type) {
+	/*margin-bottom: 1rem;*/
+}
+
+#bricks_sequence {
+	outline: 1px dashed black;
 	padding: 1rem;
+}
+
+#bricks_sequence > *:not(:last-child) {
+	margin-right: 1rem;
+}
+
+#bricks {
+	height: 40vh;
+	overflow: scroll;
 }
 
 /* special */
 
-.selected {
+*[contenteditable='true'] {
 	outline: 1px solid black;
-}
-
-.selected td:nth-of-type(5) {
-	display: none;
-}
-
-#textarea {
-	word-break: break-all;
-	border: 1px solid var(--border-color);
-}
-
-#sequence select:nth-of-type(odd),
-#textarea span:nth-of-type(odd) {
-	background-color: #bd4e00;
-}
-
-#sequence select:nth-of-type(even),
-#textarea span:nth-of-type(even) {
-	background-color: rgba(0, 0, 0, 0.37);
-}
-
-#categories div {
-	display: inline-block;
-}
-
-#categories div:not(:last-child) {
-	margin-right: 1rem;
 }
