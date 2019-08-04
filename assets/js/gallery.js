@@ -7,7 +7,7 @@ var init = data => {
 	$sequences = document.querySelector('#sequences');
 
 	for (let row of data) {
-		$sequence = createEl('section', $sequences);
+		$sequence = createEl('section', document.body);
 		$sequence.classList.add('sequence');
 
 		h2 = createEl('h3', $sequence);
@@ -18,8 +18,8 @@ var init = data => {
 		comment = createEl('div', $sequence);
 		comment.textContent = row['comment'];
 
-		note = createEl('textarea', $sequence);
-		note.textContent = row['note'];
+		// note = createEl('div', $sequence);
+		// note.textContent = row['note'];
 
 		p = createEl('p', $sequence);
 		download = createEl('a', p);
