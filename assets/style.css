@@ -46,9 +46,6 @@ h2 {
 	padding: 0.5rem;
 	width: 140px;
 	text-align: center;
-}
-
-.brick_box {
 	background-color: #111;
 	color: #eee;
 }
@@ -115,4 +112,15 @@ section:not(:last-of-type) {
 
 *[contenteditable='true'] {
 	outline: 1px solid black;
+}
+
+/* on small */
+
+@media (max-width: 600px) {
+	#bricks_sequence .brick_box {
+		width: 100%;
+	}
+	#bricks_sequence > *:not(:last-child) {
+		margin-bottom: 1rem;
+	}
 }
