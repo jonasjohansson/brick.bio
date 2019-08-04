@@ -161,11 +161,12 @@ function drop(e) {
 }
 
 var createClone = id => {
-	el = document.getElementById(id);
+	let el = document.getElementById(id);
 	let clone = el.cloneNode(true);
 	el.parentNode.classList.add('selected');
 	clone.addEventListener('dblclick', function() {
 		clone.parentNode.removeChild(clone);
+		el.parentNode.classList.remove('selected');
 	});
 	return clone;
 };

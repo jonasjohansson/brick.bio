@@ -15,7 +15,7 @@ body > * {
 }
 
 html {
-	font-size: 12px;
+	font-size: 13px;
 }
 
 input,
@@ -39,10 +39,6 @@ h2 {
 
 .brick {
 	padding: 0.5rem;
-}
-
-.selected {
-	background-color: rgba(255, 255, 255, 0.5);
 }
 
 .brick_box {
@@ -85,7 +81,13 @@ section:not(:last-of-type) {
 	padding: 0;
 }
 
+#bricks .selected .brick_box:before {
+	content: '☆';
+	color: yellow;
+	margin-right: 0.5rem;
+}
 #bricks_sequence {
+	display: flex;
 	outline: 1px dashed black;
 	padding: 1rem;
 	background-color: rgba(255, 255, 255, 0.2);
