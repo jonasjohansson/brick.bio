@@ -3,6 +3,8 @@
 
 :root {
 	--border-color: #ccc;
+	--accent-color: #bd4e00;
+	--accent-color-2: rgba(0, 0, 0, 0.37);
 }
 
 html {
@@ -28,6 +30,11 @@ body > * {
 
 p {
 	color: #333;
+}
+
+a {
+	color: var(--accent-color);
+	text-decoration: none;
 }
 
 h2,
@@ -136,12 +143,12 @@ section:not(:last-of-type) {
 
 #bricks_sequence button:nth-of-type(odd),
 #textarea span:nth-of-type(odd) {
-	background-color: #bd4e00;
+	background-color: var(--accent-color);
 }
 
 #bricks_sequence button:nth-of-type(even),
 #textarea span:nth-of-type(even) {
-	background-color: rgba(0, 0, 0, 0.37);
+	background-color: var(--accent-color-2);
 }
 
 *[contenteditable='true'] {
