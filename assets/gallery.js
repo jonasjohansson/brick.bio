@@ -10,7 +10,7 @@ var init = data => {
 		$sequence = createEl('div', $sequences);
 		$sequence.classList.add('sequence');
 
-		h2 = createEl('h2', $sequence);
+		h2 = createEl('h3', $sequence);
 		author = createEl('a', h2);
 		author.href = 'mailto:' + row['email'];
 		author.textContent = row['name'];
