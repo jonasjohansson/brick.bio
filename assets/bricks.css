@@ -1,19 +1,12 @@
 @import url(https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.min.css);
 
-.loading > * {
+body.loading {
 	opacity: 0.5;
 	pointer-events: none;
 }
-body {
-}
 
-#bricks_sequence {
-	outline: 1px dashed black;
+body > * {
 	padding: 1rem;
-}
-
-#bricks_sequence > *:not(:last-child) {
-	margin-right: 1rem;
 }
 
 input,
@@ -21,25 +14,11 @@ label {
 	padding: 0.5rem;
 }
 
-body > * {
-	padding: 1rem;
-}
-
-section:nth-of-type(odd) {
-	background-color: #ffbf92;
-}
-
-section:not(:last-of-type) {
-	/*margin-bottom: 1rem;*/
-}
-
 label {
 	text-transform: capitalize;
 }
 
-*[contenteditable='true'] {
-	outline: 1px solid black;
-}
+/* brick */
 
 .brick {
 	padding: 0.5rem;
@@ -69,4 +48,33 @@ label {
 
 .brick_description {
 	margin-left: 1rem;
+}
+
+/* sections */
+
+section:nth-of-type(odd) {
+	background-color: #ffbf92;
+}
+
+section:not(:last-of-type) {
+	/*margin-bottom: 1rem;*/
+}
+
+#bricks_sequence {
+	outline: 1px dashed black;
+	padding: 1rem;
+}
+
+#bricks_sequence > *:not(:last-child) {
+	margin-right: 1rem;
+}
+/*#bricks {
+	height: 50vh;
+	overflow: scroll;
+}*/
+
+/* special */
+
+*[contenteditable='true'] {
+	outline: 1px solid black;
 }
