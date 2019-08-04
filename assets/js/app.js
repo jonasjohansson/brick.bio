@@ -8,7 +8,6 @@ var PREFIX = '';
 var SUFFIX = '';
 
 window.addEventListener('load', () => {
-	for (var a of document.querySelectorAll('a')) a.target = '_blank';
 	parseGSX(SPREADSHEET_ID, init);
 });
 
@@ -24,6 +23,8 @@ var init = data => {
 	createBricksSequence();
 	createFilter();
 	createStandards();
+
+	for (var a of document.querySelectorAll('a')) a.target = '_blank';
 };
 
 var createBricks = data => {
@@ -59,8 +60,9 @@ var createBricks = data => {
 			$bricks_sequence.appendChild(clone);
 		});
 
-		$brick_description = createEl('div', $brick);
+		$brick_description = createEl('a', $brick);
 		$brick_description.classList.add('brick_description');
+		$brick_description.href = `http://parts.igem.org/partsdb/edit_seq.cgi?part=${row['name']}`;
 		$brick_description.innerHTML = `<span>${row['category']} <sup>${row['uses']}</sup></span><span>${row['description']}</span>`;
 	}
 };

@@ -1,7 +1,6 @@
 const SPREADSHEET_ID = '1Fl4yFCPYMPU3_tdpOYBXDDdreYHaAKKIPYf4KRHRSRQ';
 
 window.addEventListener('load', () => {
-	for (var a of document.querySelectorAll('a')) a.target = '_blank';
 	parseGSX(SPREADSHEET_ID, init);
 });
 
@@ -29,6 +28,7 @@ var init = data => {
 		download.href = row['file'];
 		download.textContent = 'Download FASTA';
 	}
+	for (var a of document.querySelectorAll('a')) a.target = '_blank';
 };
 
 var createEl = (type, parent = false) => {
