@@ -1,7 +1,12 @@
 @import url(https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.min.css);
 
+body {
+	will-change: opacity;
+	transition: opacity 500ms ease-in-out;
+}
+
 body.loading {
-	opacity: 0.5;
+	opacity: 0;
 	pointer-events: none;
 }
 
@@ -67,6 +72,12 @@ section:not(:last-of-type) {
 
 #bricks_sequence > *:not(:last-child) {
 	margin-right: 1rem;
+}
+
+#bricks_sequence_standard:after {
+	content: '';
+	clear: both;
+	display: block;
 }
 
 #bricks {
