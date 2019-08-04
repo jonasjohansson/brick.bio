@@ -29,6 +29,7 @@ var init = data => {
 
 var createBricks = data => {
 	$bricks = document.querySelector('#bricks');
+	$bricks_sequence = document.querySelector('#bricks_sequence');
 
 	for (let row of data) {
 		const part = {
@@ -52,6 +53,10 @@ var createBricks = data => {
 		$brick_box.setAttribute('draggable', true);
 		$brick_box.textContent = row['name'];
 		$brick_box.addEventListener('dragstart', dragstart);
+		$brick_box.addEventListener('click', () => {
+			var clone = createClone(row['name']);
+			$bricks_sequence.appendChild(clone);
+		});
 
 		$brick_description = createEl('div', $brick);
 		$brick_description.classList.add('brick_description');
@@ -79,6 +84,7 @@ var createFilter = () => {
 		input.type = 'radio';
 		input.name = 'category';
 		input.id = input.value = label.innerHTML = cat;
+		if (cat.length < 4) label.innerHTML = label.innerHTML.toUpperCase();
 		label.setAttribute('for', cat);
 		group.appendChild(input);
 		group.appendChild(label);
@@ -149,15 +155,20 @@ function drop(e) {
 		e.preventDefault();
 		return;
 	}
+	clone = createClone(id);
+	e.currentTarget.appendChild(clone);
+	enableDragSort('drag-sort-enable');
+}
+
+var createClone = id => {
 	el = document.getElementById(id);
 	let clone = el.cloneNode(true);
 	el.parentNode.classList.add('selected');
 	clone.addEventListener('dblclick', function() {
 		clone.parentNode.removeChild(clone);
 	});
-	e.currentTarget.appendChild(clone);
-	enableDragSort('drag-sort-enable');
-}
+	return clone;
+};
 
 /* button functions */
 
