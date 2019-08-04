@@ -11,7 +11,7 @@ var init = data => {
 		$sequence.classList.add('sequence');
 
 		h2 = createEl('h2', $sequence);
-		author = createEl('a', $sequence);
+		author = createEl('a', h2);
 		author.href = 'mailto:' + row['email'];
 		author.textContent = row['name'];
 
