@@ -1,14 +1,14 @@
 @import url(https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.min.css);
 
-/*body {
+body {
 	will-change: opacity;
-	transition: opacity 500ms ease-in-out;
+	transition: opacity 200ms ease-out;
 }
 
 body.loading {
 	opacity: 0;
 	pointer-events: none;
-}*/
+}
 
 body > * {
 	padding: 1rem;
@@ -74,7 +74,7 @@ h2 {
 /* sections */
 
 section:nth-of-type(even) {
-	background-color: #ffbf92;
+	background-color: #e6e6e6;
 }
 
 section:not(:last-of-type) {
