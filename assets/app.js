@@ -67,15 +67,15 @@ var createBricksSequence = () => {
 };
 
 var createFilter = () => {
-	$filter = document.querySelector('#bricks_filter');
+	var $filter = document.querySelector('#bricks_filter');
 
-	filter_categories = createEl('div', $filter);
-	style = createEl('style', document.body);
+	var filter_categories = createEl('div', $filter);
+	var style = createEl('style', document.body);
 
 	for (let cat of CATEGORIES) {
-		group = createEl('div', filter_categories);
-		label = createEl('label');
-		input = createEl('input');
+		var group = createEl('div', filter_categories);
+		var label = createEl('label');
+		var input = createEl('input');
 		input.type = 'radio';
 		input.name = 'category';
 		input.id = input.value = label.innerHTML = cat;
@@ -89,10 +89,16 @@ var createFilter = () => {
 		if (cat === 'promoter') input.click();
 	}
 
-	filter_keyword = createEl('input', $filter);
+	var filter_keyword = createEl('div', $filter);
+	var label = createEl('label', filter_keyword);
+	var input = createEl('input', filter_keyword);
+
+	input.id = input.name = label.innerHTML = 'keyword';
+	label.setAttribute('for', 'keyword');
+
 	style = createEl('style', document.body);
 
-	filter_keyword.onkeyup = event => {
+	input.onkeyup = event => {
 		values = event.currentTarget.value.split(/[ ,.]+/);
 		style.innerHTML = '';
 		for (val of values) {

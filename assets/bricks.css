@@ -26,7 +26,7 @@ body > * {
 }
 
 section:nth-of-type(odd) {
-	background-color: lemonchiffon;
+	background-color: #ffbf92;
 }
 
 section:not(:last-of-type) {
