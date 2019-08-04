@@ -10,7 +10,19 @@ var init = data => {
 		$sequence = createEl('div', $sequences);
 		$sequence.classList.add('sequence');
 
-		$sequence.innerHTML = row['name'];
+		author = createEl('h2', $sequence);
+		author.textContent = row['name'];
+
+		sequence = createEl('textarea', $sequence);
+		sequence.textContent = row['sequence'];
+
+		comment = createEl('div', $sequence);
+		comment.textContent = row['comment'];
+
+		p = createEl('p', $sequence);
+		download = createEl('a', p);
+		download.href = row['file'];
+		download.textContent = 'Download FASTA';
 	}
 };
 

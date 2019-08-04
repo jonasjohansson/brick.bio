@@ -5,17 +5,22 @@ body {
 	transition: opacity 200ms ease-out;
 }
 
-body.loading {
+/*body.loading {
 	opacity: 0;
 	pointer-events: none;
 }
-
+*/
 body > * {
 	padding: 1rem;
 }
 
 html {
 	font-size: 13px;
+}
+
+h2,
+h3 {
+	font-weight: normal;
 }
 
 input,
@@ -87,8 +92,8 @@ section:not(:last-of-type) {
 	color: yellow;
 	margin-right: 0.5rem;
 }
+
 #bricks_sequence {
-	display: flex;
 	outline: 1px dashed black;
 	padding: 1rem;
 	background-color: rgba(255, 255, 255, 0.2);
@@ -102,11 +107,6 @@ section:not(:last-of-type) {
 	content: '';
 	clear: both;
 	display: block;
-}
-
-#bricks {
-	height: 40vh;
-	overflow: scroll;
 }
 
 /* special */
@@ -133,9 +133,20 @@ section:not(:last-of-type) {
 	outline: 1px solid black;
 }
 
+/* on large */
+
+@media (min-width: 800px) {
+	#bricks_sequence {
+		display: flex;
+	}
+	#bricks {
+		height: 40vh;
+		overflow: scroll;
+	}
+}
 /* on small */
 
-@media (max-width: 800px) {
+@media (max-width: 799px) {
 	#bricks_sequence .brick_box {
 		width: 100%;
 	}
