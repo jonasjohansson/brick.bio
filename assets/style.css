@@ -48,6 +48,7 @@ h2 {
 	text-align: center;
 	background-color: #111;
 	color: #eee;
+	cursor: move;
 }
 
 .brick > * {
@@ -109,6 +110,14 @@ section:not(:last-of-type) {
 }
 
 /* special */
+
+#bg {
+	background-image: url(tex.jpg);
+	width: 100vw;
+	height: 10vh;
+	background-repeat: repeat-x;
+	background-size: contain;
+}
 
 #bricks_sequence button:nth-of-type(odd),
 #textarea span:nth-of-type(odd) {
