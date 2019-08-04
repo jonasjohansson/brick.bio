@@ -55,6 +55,7 @@ var createBricks = data => {
 		$brick_box.setAttribute('draggable', true);
 		$brick_box.textContent = row['name'];
 		$brick_box.addEventListener('dragstart', dragstart);
+		$brick_box.addEventListener('dragend', dragend);
 		$brick_box.addEventListener('click', () => {
 			var clone = createClone(row['name']);
 			$bricks_sequence.appendChild(clone);
@@ -139,15 +140,20 @@ var createStandards = () => {
 function dragstart(e) {
 	e.dataTransfer.setData('text', e.target.id);
 	e.target.classList.add('highlight');
+	document.body.classList.add('dragging');
+}
+
+function dragend(e) {
+	document.body.classList.remove('dragging');
 }
 
 function dragover(e) {
 	e.preventDefault();
-	e.target.classList.remove('highlight');
 }
 
 function dragleave(e) {
 	e.preventDefault();
+	e.target.classList.remove('highlight');
 }
 
 function dragenter(e) {
@@ -156,6 +162,7 @@ function dragenter(e) {
 
 function dragend(e) {
 	e.preventDefault();
+	document.body.classList.remove('dragging');
 }
 
 function drop(e) {

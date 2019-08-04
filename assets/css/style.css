@@ -2,6 +2,8 @@
 @import url(type/stylesheet.css);
 
 :root {
+	--black: #222;
+	--white: #eee;
 	--border-color: #ccc;
 	--accent-color: #bd4e00;
 	--accent-color-2: rgba(0, 0, 0, 0.37);
@@ -12,15 +14,8 @@ html {
 }
 
 body {
-	will-change: opacity;
-	transition: opacity 200ms ease-out;
 	font-family: -apple-system, system-ui, sans-serif;
 	line-height: 1.5rem;
-}
-
-body.loading {
-	opacity: 0;
-	pointer-events: none;
 }
 
 body > * {
@@ -69,8 +64,8 @@ h2 {
 	padding: 0.5rem;
 	width: 140px;
 	text-align: center;
-	background-color: #111;
-	color: #eee;
+	background-color: var(--black);
+	color: var(--white);
 	cursor: move;
 }
 
@@ -83,10 +78,6 @@ h2 {
 	padding: 0.5rem;
 }
 
-.brick_wrap:nth-child(odd) {
-	background-color: rgba(0, 0, 0, 0.05);
-}
-
 .brick_description {
 	margin-left: 1rem;
 }
@@ -95,10 +86,6 @@ h2 {
 
 section:nth-of-type(odd) {
 	background-color: #f6f6f6;
-}
-
-section:not(:last-of-type) {
-	/*margin-bottom: 1rem;*/
 }
 
 #bricks {
@@ -114,7 +101,6 @@ section:not(:last-of-type) {
 #bricks_sequence {
 	outline: 1px dashed var(--border-color);
 	padding: 1rem;
-	background-color: rgba(255, 255, 255, 0.2);
 }
 
 #bricks_sequence > *:not(:last-child) {
@@ -127,6 +113,22 @@ section:not(:last-of-type) {
 	display: block;
 }
 
+/* body classes */
+
+body:not(.loading) {
+	will-change: opacity;
+	transition: opacity 200ms ease-out;
+}
+
+body.loading {
+	opacity: 0;
+	pointer-events: none;
+}
+
+body.dragging #bricks_sequence {
+	background-color: #ff9528;
+}
+
 /* special */
 
 #bg {
@@ -137,7 +139,8 @@ section:not(:last-of-type) {
 	background-size: contain;
 }
 
-#textarea {
+#textarea span {
+	color: white;
 }
 
 #bricks_sequence button:nth-of-type(odd),
@@ -147,7 +150,7 @@ section:not(:last-of-type) {
 
 #bricks_sequence button:nth-of-type(even),
 #textarea span:nth-of-type(even) {
-	background-color: var(--accent-color-2);
+	background-color: var(--black);
 }
 
 *[contenteditable='true'] {
