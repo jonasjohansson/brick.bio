@@ -61,7 +61,7 @@ var createBricks = data => {
 
 		$brick_description = createEl('div', $brick);
 		$brick_description.classList.add('brick_description');
-		$brick_description.innerHTML = `<sub>${row['description']}</sub> ${row['description']} <sup>${row['uses']}</sup> `;
+		$brick_description.innerHTML = `<span>${row['category']} <sup>${row['uses']}</sup></span><span>${row['description']}</span>`;
 	}
 };
 
