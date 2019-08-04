@@ -1,8 +1,20 @@
 @import url(https://cdn.jsdelivr.net/npm/modern-normalize/modern-normalize.min.css);
+@import url(stylesheet.css);
+
+:root {
+	--border-color: #ccc;
+}
+
+html {
+	font-size: 13px;
+	font-weight: lighter;
+}
 
 body {
 	will-change: opacity;
 	transition: opacity 200ms ease-out;
+	font-family: -apple-system, system-ui, sans-serif;
+	line-height: 1.5rem;
 }
 
 /*body.loading {
@@ -14,8 +26,8 @@ body > * {
 	padding: 1rem;
 }
 
-html {
-	font-size: 13px;
+p {
+	color: #333;
 }
 
 h2,
@@ -94,7 +106,7 @@ section:not(:last-of-type) {
 }
 
 #bricks_sequence {
-	outline: 1px dashed black;
+	outline: 1px dashed var(--border-color);
 	padding: 1rem;
 	background-color: rgba(255, 255, 255, 0.2);
 }
@@ -119,6 +131,9 @@ section:not(:last-of-type) {
 	background-size: contain;
 }
 
+#textarea {
+}
+
 #bricks_sequence button:nth-of-type(odd),
 #textarea span:nth-of-type(odd) {
 	background-color: #bd4e00;
@@ -130,7 +145,8 @@ section:not(:last-of-type) {
 }
 
 *[contenteditable='true'] {
-	outline: 1px solid black;
+	word-break: break-all;
+	border: 1px solid var(--border-color);
 }
 
 /* on large */
