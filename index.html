@@ -13,23 +13,23 @@
 			<p>Choose bricks in the registry, generate your sequence, <a href="gallery.html">view others</a> and share your own!</p>
 		</header>
 		<section>
-			<h2>🧱 Sequence builder</h2>
+			<h2>Sequence builder 🧱</h2>
 			<p><em>Drag bricks from the registry and drop here. You can re-arrange the order afterwards.</em></p>
 			<div id="bricks_sequence" class="brick_list drag-sort-enable"></div>
 			<div id="bricks_sequence_standard">
 				<p><em>Changing the assembly standard will change the sequences of prefixes and suffixes.</em></p>
 			</div>
-			<p><button onclick="generateSequence()">Generate sequence</button></p>
+			<p><button onclick="getSequence()">Generate sequence</button></p>
 			<div id="textarea" contenteditable="true"></div>
 			<p>
-				<button onclick="copyClipboard()">Copy</button>
+				<button onclick="copySequence()">Copy</button>
 				<button onclick="getFasta(this)"><a>Fasta</a></button>
 				<button><a href="https://docs.google.com/forms/d/e/1FAIpQLSfIxiFf6NlF3mtx2RNPLgVHvDl_R7lrkghhvNJFmKnNAAilwA/viewform" target="_blank">Share</a></button>
-				<button onclick="sayIt()">Say it!</button>
+				<button onclick="textToSpeech(document.querySelector('#textarea').textContent)">Say it!</button>
 			</p>
 		</section>
 		<section id="bricks_filter">
-			<h2>📚 Registry</h2>
+			<h2>Registry 📚</h2>
 		</section>
 		<section id="bricks" class="brick_list"></section>
 		<footer>

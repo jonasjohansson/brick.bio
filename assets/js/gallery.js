@@ -1,5 +1,8 @@
+const SPREADSHEET_ID = '1Fl4yFCPYMPU3_tdpOYBXDDdreYHaAKKIPYf4KRHRSRQ';
+
 window.addEventListener('load', () => {
-	parseGSX('1Fl4yFCPYMPU3_tdpOYBXDDdreYHaAKKIPYf4KRHRSRQ', init);
+	for (var a of document.querySelectorAll('a')) a.target = '_blank';
+	parseGSX(SPREADSHEET_ID, init);
 });
 
 var init = data => {

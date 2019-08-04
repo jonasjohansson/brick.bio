@@ -16,10 +16,16 @@ html {
 body {
 	font-family: -apple-system, system-ui, sans-serif;
 	line-height: 1.5rem;
+	font-weight: lighter;
 }
 
 body > * {
 	padding: 1rem;
+}
+
+h2,
+h3 {
+	font-weight: normal;
 }
 
 p {
@@ -31,16 +37,8 @@ a {
 	text-decoration: none;
 }
 
-h2,
-h3 {
-	font-weight: normal;
-}
-
 input,
-label {
-	padding: 0.5rem;
-}
-
+label,
 #textarea {
 	padding: 0.5rem;
 }
@@ -93,8 +91,8 @@ section:nth-of-type(odd) {
 }
 
 #bricks .selected .brick_box:before {
-	content: '☆';
-	color: yellow;
+	content: '★';
+	color: white;
 	margin-right: 0.5rem;
 }
 

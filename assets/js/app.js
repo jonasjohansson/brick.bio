@@ -1,4 +1,4 @@
-const GALLERY_ID = '1NBdYD9d4TDNCyloiUFu8qi7XwihIp1TCje0MotoESg4';
+const SPREADSHEET_ID = '1-skfNnBOJsUmO6NR_1eDyFAH3d8GeTvpKCP2QWi-ZEw';
 const CATEGORIES = ['promoter', 'terminator', 'coding_sequence', 'rbs'];
 const STANDARDS = [['standard_igem', 'Standard iGEM', 'GACGCCAGGTTGAATGAATTCGCGGCCGCTTCTAGA', 'TACTAGTAGCGGCCGCTGCAGTACCTCCAAATACGG'], ['standard_coding', 'Standard Coding Sequences', 'GAATTCGCGGCCGCTTCTAGATG', 'TACTAGTAGCGGCCGCTGCAG'], ['bb-2', 'BB-2', 'GAATTCGCGGCCGCACTAGT', 'GCTAGCGCGGCCGCTGCAG'], ['bgl', 'BglBricks', 'GAATTCATGAGATCT', 'GGATCCTTACTCGAG'], ['silver', 'Silver', 'GAATTCGCGGCCGCTTCTAGA', 'GAATTCGCGGCCGCTTCTAGA'], ['freiburg', 'Freiburg', 'GAATTCGCGGCCGCTTCTAGATGGCCGGC', 'ACCGGTTAATACTAGTAGCGGCCGCTGCAG']];
 const HEADINGS = ['name', 'uses', 'category', 'description'];
@@ -8,10 +8,8 @@ var PREFIX = '';
 var SUFFIX = '';
 
 window.addEventListener('load', () => {
-	for (var a of document.querySelectorAll('a')) {
-		a.target = '_blank';
-	}
-	parseGSX('1-skfNnBOJsUmO6NR_1eDyFAH3d8GeTvpKCP2QWi-ZEw', init);
+	for (var a of document.querySelectorAll('a')) a.target = '_blank';
+	parseGSX(SPREADSHEET_ID, init);
 });
 
 var init = data => {
@@ -87,7 +85,8 @@ var createFilter = () => {
 		var input = createEl('input');
 		input.type = 'radio';
 		input.name = 'category';
-		input.id = input.value = label.innerHTML = cat;
+		input.id = input.value = cat;
+		label.innerHTML = cat.replace(/_/g, ' ');
 		if (cat.length < 4) label.innerHTML = label.innerHTML.toUpperCase();
 		label.setAttribute('for', cat);
 		group.appendChild(input);
@@ -187,9 +186,7 @@ var createClone = id => {
 	return clone;
 };
 
-/* button functions */
-
-var copyClipboard = () => {
+var copySequence = () => {
 	var textarea = document.querySelector('#textarea');
 	var range = document.createRange();
 	range.selectNode(textarea);
@@ -206,8 +203,8 @@ var getFasta = event => {
 		return;
 	}
 
-	var name = prompt(`Enter Fasta file name`);
-	if (name.length === 0) name = ID();
+	var name = prompt(`Enter Fasta file name (default is 'igem')`);
+	if (name === null) name = 'igem';
 
 	var fasta_sequence = `>${name}\n${sequence}`;
 	var link = event.firstElementChild;
@@ -215,11 +212,7 @@ var getFasta = event => {
 	link.setAttribute('download', `${name}.fasta`);
 };
 
-var sayIt = () => {
-	textToSpeech(document.querySelector('#textarea').textContent);
-};
-
-var generateSequence = () => {
+var getSequence = () => {
 	bricks = document.querySelectorAll('#bricks_sequence > *');
 
 	var sequence = '';
@@ -239,15 +232,6 @@ function textToSpeech(what) {
 	utter.text = what;
 	window.speechSynthesis.speak(utter);
 }
-
-var ID = function() {
-	return (
-		'_' +
-		Math.random()
-			.toString(36)
-			.substr(2, 9)
-	);
-};
 
 var createEl = (type, parent = false) => {
 	el = document.createElement(type);
