@@ -55,20 +55,23 @@ h2 {
 
 .brick {
 	padding: 0.5rem;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+.brick > * {
+	display: inline-block;
 }
 
 .brick_box {
 	border: 0;
 	padding: 0.5rem;
-	width: 140px;
+	width: 110px;
 	text-align: center;
 	background-color: var(--black);
 	color: var(--white);
 	cursor: move;
-}
-
-.brick > * {
-	display: inline-block;
 }
 
 .brick_wrap {
