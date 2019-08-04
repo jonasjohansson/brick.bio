@@ -18,7 +18,7 @@ var init = data => {
 		comment = createEl('div', $sequence);
 		comment.textContent = row['comment'];
 
-		note = createEl('textarea', $note);
+		note = createEl('textarea', $sequence);
 		note.textContent = row['note'];
 
 		p = createEl('p', $sequence);
