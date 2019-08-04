@@ -7,7 +7,7 @@ var init = data => {
 	$sequences = document.querySelector('#sequences');
 
 	for (let row of data) {
-		$sequence = createEl('div', $sequences);
+		$sequence = createEl('section', $sequences);
 		$sequence.classList.add('sequence');
 
 		h2 = createEl('h3', $sequence);
