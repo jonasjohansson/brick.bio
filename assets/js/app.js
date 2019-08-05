@@ -221,7 +221,8 @@ var getSequence = () => {
 	var sequence = '';
 
 	for (let brick of bricks) {
-		var part = getObjects(ALL_BRICKS, 'name', brick.id);
+		id = brick.id.replace(/clone-/g, '');
+		var part = getObjects(ALL_BRICKS, 'name', id);
 		sequence += `<span>${part[0].partsequence.toUpperCase()}</span>`;
 	}
 
