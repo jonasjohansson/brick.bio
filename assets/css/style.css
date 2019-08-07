@@ -10,7 +10,7 @@
 }
 
 html {
-	font-size: 13px;
+	font-size: 15px;
 }
 
 body {
@@ -97,11 +97,11 @@ h2 {
 	padding: 0;
 }
 
-#bricks .selected .brick_box:before {
+/*#bricks .selected .brick_box:before {
 	content: '★';
 	color: white;
 	margin-right: 0.5rem;
-}
+}*/
 
 .selected .brick_box {
 	opacity: 0.5;
