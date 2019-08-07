@@ -71,7 +71,7 @@ h2 {
 	text-align: center;
 	background-color: var(--black);
 	color: var(--white);
-	cursor: move;
+	cursor: grab;
 }
 
 .brick_wrap {
@@ -101,6 +101,12 @@ h2 {
 	content: '★';
 	color: white;
 	margin-right: 0.5rem;
+}
+
+.selected .brick_box {
+	opacity: 0.5;
+	pointer-events: none;
+	cursor: not-allowed;
 }
 
 #bricks_sequence {
