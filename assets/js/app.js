@@ -96,7 +96,7 @@ var createFilter = () => {
 		input.addEventListener('change', () => {
 			document.body.setAttribute('data-category', cat);
 		});
-		style.innerHTML += `body[data-category=${cat}] .brick:not([data-category*="${cat}"]):not(.selected) { display: none; }\n`;
+		style.innerHTML += `body[data-category=${cat}] .brick:not([data-category*="${cat}" i]):not(.selected) { display: none; }\n`;
 		if (cat === 'promoter') input.click();
 	}
 
@@ -114,7 +114,7 @@ var createFilter = () => {
 		style.innerHTML = '';
 		for (val of values) {
 			if (val.length === 0) return;
-			style.innerHTML += `.brick:not(.selected):not([data-meta*="${val}"]) { display: none; }\n`;
+			style.innerHTML += `.brick:not(.selected):not([data-meta*="${val}" i]) { display: none; }\n`;
 		}
 	};
 };
