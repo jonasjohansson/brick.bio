@@ -1,12 +1,19 @@
 const SPREADSHEET_ID = '1-skfNnBOJsUmO6NR_1eDyFAH3d8GeTvpKCP2QWi-ZEw';
-const CATEGORIES = ['promoter', 'terminator', 'coding_sequence', 'rbs'];
+const CATEGORIES = ['promoter', 'rbs', 'coding_sequence', 'terminator'];
 const STANDARDS = [
-	['standard_igem', 'Standard iGEM', 'GACGCCAGGTTGAATGAATTCGCGGCCGCTTCTAGA', 'TACTAGTAGCGGCCGCTGCAGTACCTCCAAATACGG'],
-	['standard_coding', 'Standard Coding Sequences', 'GAATTCGCGGCCGCTTCTAGATG', 'TACTAGTAGCGGCCGCTGCAG'],
-	['bb-2', 'BB-2', 'GAATTCGCGGCCGCACTAGT', 'GCTAGCGCGGCCGCTGCAG'],
-	['bgl', 'BglBricks', 'GAATTCATGAGATCT', 'GGATCCTTACTCGAG'],
-	['silver', 'Silver', 'GAATTCGCGGCCGCTTCTAGA', 'GAATTCGCGGCCGCTTCTAGA'],
-	['freiburg', 'Freiburg', 'GAATTCGCGGCCGCTTCTAGATGGCCGGC', 'ACCGGTTAATACTAGTAGCGGCCGCTGCAG']
+	[
+		'sthlm_2019',
+		'Sthlm 2019',
+		'TCGCCTAGAATTACCTACCAGAGACGCCAAGTTGAATGAC',
+		'CCTGAGGTACGCATCAATCTGTATGTGCAAGAAACCCAAG',
+		'This sequences are generated to have very low complexity. Therefore they are perfectly suited to use them as Primer binding sites or for hybridisation dependent cloning like NEB ™ HIFI Assembly. We had very good experience with this cloning technique, having assembled our construct within one week.'
+	],
+	['standard_igem', 'Standard iGEM', 'GACGCCAGGTTGAATGAATTCGCGGCCGCTTCTAGA', 'TACTAGTAGCGGCCGCTGCAGTACCTCCAAATACGG', 'b'],
+	['standard_coding', 'Standard Coding Sequences', 'GAATTCGCGGCCGCTTCTAGATG', 'TACTAGTAGCGGCCGCTGCAG', 'c'],
+	['bb-2', 'BB-2', 'GAATTCGCGGCCGCACTAGT', 'GCTAGCGCGGCCGCTGCAG', 'd'],
+	['bgl', 'BglBricks', 'GAATTCATGAGATCT', 'GGATCCTTACTCGAG', 'e'],
+	['silver', 'Silver', 'GAATTCGCGGCCGCTTCTAGA', 'GAATTCGCGGCCGCTTCTAGA', 'f'],
+	['freiburg', 'Freiburg', 'GAATTCGCGGCCGCTTCTAGATGGCCGGC', 'ACCGGTTAATACTAGTAGCGGCCGCTGCAG', 'g']
 ];
 const HEADINGS = ['name', 'uses', 'category', 'description'];
 
@@ -103,7 +110,8 @@ var createFilter = () => {
 		input.addEventListener('change', () => {
 			document.body.setAttribute('data-category', cat);
 		});
-		style.innerHTML += `body[data-category=${cat}] .brick:not([data-category*="${cat}" i]):not(.selected) { display: none; }\n`;
+		// style.innerHTML += `body[data-category=${cat}] .brick:not([data-category*="${cat}" i]):not(.selected) { display: none; }\n`;
+		style.innerHTML += `body[data-category=${cat}] .brick:not([data-category*="${cat}" i]) { display: none; }\n`;
 		if (cat === 'promoter') input.click();
 	}
 
@@ -129,17 +137,29 @@ var createFilter = () => {
 var createStandards = () => {
 	$standard = document.querySelector('#bricks_sequence_standard');
 	select = createEl('select', $standard);
+	info = createEl('p');
+	index = 0;
+
+	$standard.appendChild(info);
 	for (let standard of STANDARDS) {
 		let option = createEl('option', select);
 		option.name = 'standards';
 		option.id = option.value = standard[0];
 		option.textContent = standard[1];
 	}
+
 	select.onchange = event => {
 		index = event.target.selectedIndex;
+		update();
+	};
+
+	function update() {
 		PREFIX = STANDARDS[index][2];
 		SUFFIX = STANDARDS[index][3];
-	};
+		info.innerHTML = STANDARDS[index][4];
+	}
+
+	update();
 
 	PREFIX = STANDARDS[0][2];
 	SUFFIX = STANDARDS[0][3];
@@ -175,6 +195,12 @@ function dragend(e) {
 
 function drop(e) {
 	id = e.dataTransfer.getData('text') || null;
+	if (e.stopPropagation) {
+		e.stopPropagation();
+	}
+	if (e.preventDefault) {
+		e.preventDefault();
+	}
 	if (id === null || id.includes('clone')) {
 		e.preventDefault();
 		return;
@@ -187,6 +213,11 @@ var createClone = id => {
 	let el = document.getElementById(id);
 	let clone = el.cloneNode(true);
 	clone.id = 'clone-' + id;
+	let category = el.parentNode.getAttribute('data-category');
+	for (var cat of CATEGORIES) {
+		if (category.includes(cat)) category = cat;
+	}
+	clone.innerHTML = `${category}\n${clone.textContent}`;
 	el.parentNode.classList.add('selected');
 	clone.addEventListener('dblclick', function() {
 		clone.parentNode.removeChild(clone);
@@ -222,16 +253,71 @@ var getFasta = event => {
 	link.setAttribute('download', `${name}.fasta`);
 };
 
+var getGenbank = event => {
+	sequence = document.querySelector('#textarea').textContent;
+
+	if (sequence.length === 0) {
+		alert('Generate a sequence first!');
+		return;
+	}
+
+	var name = prompt(`Enter Genbank file name (default is 'igem')`);
+	if (name === null) name = 'igem';
+
+	var link = event.firstElementChild;
+	link.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(genbank_sequence));
+	link.setAttribute('download', `${name}.genbank`);
+};
+
+var fasta_sequence = '';
+var genbank_sequence = '';
 var getSequence = () => {
 	bricks = document.querySelectorAll('#bricks_sequence > *');
 
 	var sequence = '';
 
+	var sequenceLength = 5028;
+	var sequenceCount = 1;
+	var sequences = '';
+	genbank_sequence = `LOCUS                                82 bp    DNA              UNK 01-JAN-2007
+DEFINITION  Possible describtion by user
+ACCESSION   bbtest
+VERSION     testtest
+KEYWORDS    .
+SOURCE      E.coli 
+ORGANISM  .
+COMMENT     Possible comments
+
+FEATURES             Location/Qualifiers
+    Constructname   1..${sequenceLength}
+                     /organism=
+                     /db_xref=
+                     /chromosome=
+                     /map="9"\r\n`;
+
+	genbank_sequence += `    PREFIX 1..${PREFIX.length}\r\n`;
+	sequenceCount += PREFIX.length;
+	sequences += PREFIX;
 	for (let brick of bricks) {
 		id = brick.id.replace(/clone-/g, '');
 		var part = getObjects(ALL_BRICKS, 'name', id);
+		console.log(part);
+
+		genbank_sequence += `    ${part[0].category}      ${sequenceCount}..${sequenceCount + part[0].partsequence.length}\r\n`;
+
+		sequenceCount += part[0].partsequence.length;
+
+		sequences += part[0].partsequence;
+
 		sequence += `<span>${part[0].partsequence.toUpperCase()}</span>`;
 	}
+	sequences += SUFFIX;
+
+	genbank_sequence += `    SUFFIX ${sequenceCount}..${sequenceCount + SUFFIX.length}\r\n`;
+	sequenceCount += PREFIX.length;
+
+	genbank_sequence += `ORIGIN
+		           1 ${sequences}`;
 
 	document.querySelector('#textarea').innerHTML = `${PREFIX}${sequence}${SUFFIX}`;
 };

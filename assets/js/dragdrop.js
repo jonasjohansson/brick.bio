@@ -16,7 +16,7 @@ function enableDragList(list) {
 }
 
 function enableDragItem(item) {
-	console.log(item);
+	// console.log(item);
 	item.setAttribute('draggable', true);
 	item.ondrag = handleDrag;
 	item.ondragend = handleDrop;

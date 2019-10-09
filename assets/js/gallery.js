@@ -5,8 +5,9 @@ window.addEventListener('load', () => {
 });
 
 var init = data => {
-	console.log(data);
 	$sequences = document.querySelector('#sequences');
+
+	data = data.reverse();
 
 	for (let row of data) {
 		$sequence = createEl('section', document.body);
@@ -16,6 +17,11 @@ var init = data => {
 		author = createEl('a', h2);
 		author.href = 'mailto:' + row['email'];
 		author.textContent = row['name'];
+
+		img = createEl('img', $sequence);
+		imgId = row['sequenceimage'].replace('https://drive.google.com/open?id=', '');
+		img.src = `https://drive.google.com/uc?id=${imgId}&export=download`;
+		console.log(img.src);
 
 		comment = createEl('div', $sequence);
 		comment.textContent = row['comment'];
