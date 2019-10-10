@@ -28,7 +28,7 @@ function preload() {
 }
 
 function setup() {
-    masterVolume(0.1);
+    masterVolume(0.5);
 }
 
 window.addEventListener('load', () => {
