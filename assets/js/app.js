@@ -1,25 +1,21 @@
 const SPREADSHEET_ID = '1-skfNnBOJsUmO6NR_1eDyFAH3d8GeTvpKCP2QWi-ZEw';
 const CATEGORIES = ['promoter', 'rbs', 'coding_sequence', 'terminator'];
-const STANDARDS = [
-	[
-		'sthlm_2019',
-		'Sthlm 2019',
-		'TCGCCTAGAATTACCTACCAGAGACGCCAAGTTGAATGAC',
-		'CCTGAGGTACGCATCAATCTGTATGTGCAAGAAACCCAAG',
-		'This sequences are generated to have very low complexity. Therefore they are perfectly suited to use them as Primer binding sites or for hybridisation dependent cloning like NEB ™ HIFI Assembly. We had very good experience with this cloning technique, having assembled our construct within one week.'
-	],
-	['standard_igem', 'Standard iGEM', 'GACGCCAGGTTGAATGAATTCGCGGCCGCTTCTAGA', 'TACTAGTAGCGGCCGCTGCAGTACCTCCAAATACGG', 'b'],
-	['standard_coding', 'Standard Coding Sequences', 'GAATTCGCGGCCGCTTCTAGATG', 'TACTAGTAGCGGCCGCTGCAG', 'c'],
-	['bb-2', 'BB-2', 'GAATTCGCGGCCGCACTAGT', 'GCTAGCGCGGCCGCTGCAG', 'd'],
-	['bgl', 'BglBricks', 'GAATTCATGAGATCT', 'GGATCCTTACTCGAG', 'e'],
-	['silver', 'Silver', 'GAATTCGCGGCCGCTTCTAGA', 'GAATTCGCGGCCGCTTCTAGA', 'f'],
-	['freiburg', 'Freiburg', 'GAATTCGCGGCCGCTTCTAGATGGCCGGC', 'ACCGGTTAATACTAGTAGCGGCCGCTGCAG', 'g']
-];
+const STANDARDS = [['sthlm_2019', 'Sthlm 2019', 'TCGCCTAGAATTACCTACCAGAGACGCCAAGTTGAATGAC', 'CCTGAGGTACGCATCAATCTGTATGTGCAAGAAACCCAAG', 'This sequences are generated to have very low complexity. Therefore they are perfectly suited to use them as Primer binding sites or for hybridisation dependent cloning like NEB ™ HIFI Assembly. We had very good experience with this cloning technique, having assembled our construct within one week.'], ['standard_igem', 'Standard iGEM', 'GACGCCAGGTTGAATGAATTCGCGGCCGCTTCTAGA', 'TACTAGTAGCGGCCGCTGCAGTACCTCCAAATACGG', 'b'], ['standard_coding', 'Standard Coding Sequences', 'GAATTCGCGGCCGCTTCTAGATG', 'TACTAGTAGCGGCCGCTGCAG', 'c'], ['bb-2', 'BB-2', 'GAATTCGCGGCCGCACTAGT', 'GCTAGCGCGGCCGCTGCAG', 'd'], ['bgl', 'BglBricks', 'GAATTCATGAGATCT', 'GGATCCTTACTCGAG', 'e'], ['silver', 'Silver', 'GAATTCGCGGCCGCTTCTAGA', 'GAATTCGCGGCCGCTTCTAGA', 'f'], ['freiburg', 'Freiburg', 'GAATTCGCGGCCGCTTCTAGATGGCCGGC', 'ACCGGTTAATACTAGTAGCGGCCGCTGCAG', 'g']];
 const HEADINGS = ['name', 'uses', 'category', 'description'];
 
 var ALL_BRICKS;
 var PREFIX = '';
 var SUFFIX = '';
+
+var mySound, myPhrase, myPart;
+
+function preload() {
+	mySound = loadSound('assets/beatbox.mp3');
+}
+
+function setup() {
+	masterVolume(0.1);
+}
 
 window.addEventListener('load', () => {
 	parseGSX(SPREADSHEET_ID, init);
@@ -330,10 +326,36 @@ function textToSpeech(what) {
 	window.speechSynthesis.speak(utter);
 }
 
+function playSequence(what) {
+	what = what.toLowerCase();
+	what = what.replaceAll('g', '0');
+	what = what.replaceAll('a', '1');
+	what = what.replaceAll('t', '2');
+	what = what.replaceAll('c', '3');
+	var pattern = what.split('').join(',');
+	console.log(pattern);
+
+	myPhrase = new p5.Phrase('bbox', makeSound, pattern);
+	myPart = new p5.Part();
+	myPart.addPhrase(myPhrase);
+	myPart.setBPM(60);
+
+	function makeSound(time, playbackRate) {
+		mySound.rate(playbackRate);
+		mySound.play(time);
+	}
+
+	myPart.start();
+}
+
 var createEl = (type, parent = false) => {
 	el = document.createElement(type);
 	if (parent) parent.appendChild(el);
 	return el;
+};
+
+String.prototype.replaceAll = function(str1, str2, ignore) {
+	return this.replace(new RegExp(str1.replace(/([\/\,\!\\\^\$\{\}\[\]\(\)\.\*\+\?\|\<\>\-\&])/g, '\\$&'), ignore ? 'gi' : 'g'), typeof str2 == 'string' ? str2.replace(/\$/g, '$$$$') : str2);
 };
 
 function compare(a, b) {

@@ -30,6 +30,7 @@
 				<button onclick="getGenbank(this)"><a>Genbank</a></button>
 				<button><a href="https://docs.google.com/forms/d/e/1FAIpQLSfIxiFf6NlF3mtx2RNPLgVHvDl_R7lrkghhvNJFmKnNAAilwA/viewform" target="_blank">Share</a></button>
 				<button onclick="textToSpeech(document.querySelector('#textarea').textContent)">Say it!</button>
+				<button onclick="playSequence(document.querySelector('#textarea').textContent)">Play it!</button>
 			</p>
 			<p>Once you have your sequence, visit <a href="http://restrictionmapper.org">Restriction mapper</a> for some extended use!</p>
 			<p>Here are some great links! We recommend <a href="https://eu.idtdna.com/calc/analyzer">IDT oligo analyzer</a> for designing primers. <a href="https://faculty.ucr.edu/~mmaduro/random.htm">DNA randomizer</a> for generating random sequences, for example spacers.</a>. Curious about Codons, use <a href="http://cool.syncti.org/viewresult.php?id=glva4bts67rezbg">COOL</a>. Looking for motifs? Try our favourite <a href="https://molbiol-tools.ca/DNA_Motifs.htm">toolbox</a>. And in case you need a calculator use <a href="https://nebiocalculator.neb.com/#!/ligation">NEB</a> or <a href="https://tmcalculator.neb.com/#!/main">NEB TM</a>.
@@ -51,6 +52,8 @@
 		<script src="assets/js/parse-json.js"></script>
 		<script src="assets/js/dragdrop.js"></script>
 		<script src="https://unpkg.com/sortablejs@1.10.0-rc3/Sortable.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/p5.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.9.0/addons/p5.sound.min.js"></script>
 		<script src="assets/js/app.js"></script>
 	</body>
 </html>
