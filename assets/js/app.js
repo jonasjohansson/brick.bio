@@ -305,12 +305,14 @@ FEATURES             Location/Qualifiers
         var last = seq.substr(seq.length - 3).toLowerCase();
         var first = seq.substr(0, 3).toLowerCase();
 
-        if (cat.includes('RBS') && last !== 'atg') {
-            part[0].partsequence += 'atg';
+        if (cat.includes('RBS') && last === 'atg') {
+            part[0].partsequence = part[0].partsequence.substr(0, seq.length - 3);
+            // part[0].partsequence += 'atg';
         }
 
         if (cat.includes('coding_sequence') && first === 'atg') {
-            part[0].partsequence = part[0].partsequence.slice(3);
+            part[0].partsequence = 'atg' + seq;
+            // part[0].partsequence = part[0].partsequence.slice(3);
         }
 
         genbank_sequence += `    ${part[0].category}      ${sequenceCount}..${sequenceCount + part[0].partsequence.length}\r\n`;
