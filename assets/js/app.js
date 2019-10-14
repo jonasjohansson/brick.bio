@@ -1,20 +1,6 @@
 const SPREADSHEET_ID = '1-skfNnBOJsUmO6NR_1eDyFAH3d8GeTvpKCP2QWi-ZEw';
 const CATEGORIES = ['promoter', 'rbs', 'coding_sequence', 'terminator'];
-const STANDARDS = [
-    [
-        'sthlm_2019',
-        'Sthlm 2019',
-        'TCGCCTAGAATTACCTACCAGAGACGCCAAGTTGAATGAC',
-        'CCTGAGGTACGCATCAATCTGTATGTGCAAGAAACCCAAG',
-        'This sequences are generated to have very low complexity. Therefore they are perfectly suited to use them as Primer binding sites or for hybridisation dependent cloning like NEB ™ HIFI Assembly. We had very good experience with this cloning technique, having assembled our construct within one week.'
-    ],
-    ['standard_igem', 'Standard iGEM', 'GACGCCAGGTTGAATGAATTCGCGGCCGCTTCTAGA', 'TACTAGTAGCGGCCGCTGCAGTACCTCCAAATACGG', 'b'],
-    ['standard_coding', 'Standard Coding Sequences', 'GAATTCGCGGCCGCTTCTAGATG', 'TACTAGTAGCGGCCGCTGCAG', 'c'],
-    ['bb-2', 'BB-2', 'GAATTCGCGGCCGCACTAGT', 'GCTAGCGCGGCCGCTGCAG', 'd'],
-    ['bgl', 'BglBricks', 'GAATTCATGAGATCT', 'GGATCCTTACTCGAG', 'e'],
-    ['silver', 'Silver', 'GAATTCGCGGCCGCTTCTAGA', 'GAATTCGCGGCCGCTTCTAGA', 'f'],
-    ['freiburg', 'Freiburg', 'GAATTCGCGGCCGCTTCTAGATGGCCGGC', 'ACCGGTTAATACTAGTAGCGGCCGCTGCAG', 'g']
-];
+const STANDARDS = [['sthlm_2019', 'Sthlm 2019', 'TCGCCTAGAATTACCTACCAGAGACGCCAAGTTGAATGAC', 'CCTGAGGTACGCATCAATCTGTATGTGCAAGAAACCCAAG', 'This sequences are generated to have very low complexity. Therefore they are perfectly suited to use them as Primer binding sites or for hybridisation dependent cloning like NEB ™ HIFI Assembly. We had very good experience with this cloning technique, having assembled our construct within one week.'], ['standard_igem', 'Standard iGEM', 'GACGCCAGGTTGAATGAATTCGCGGCCGCTTCTAGA', 'TACTAGTAGCGGCCGCTGCAGTACCTCCAAATACGG', 'b'], ['standard_coding', 'Standard Coding Sequences', 'GAATTCGCGGCCGCTTCTAGATG', 'TACTAGTAGCGGCCGCTGCAG', 'c'], ['bb-2', 'BB-2', 'GAATTCGCGGCCGCACTAGT', 'GCTAGCGCGGCCGCTGCAG', 'd'], ['bgl', 'BglBricks', 'GAATTCATGAGATCT', 'GGATCCTTACTCGAG', 'e'], ['silver', 'Silver', 'GAATTCGCGGCCGCTTCTAGA', 'GAATTCGCGGCCGCTTCTAGA', 'f'], ['freiburg', 'Freiburg', 'GAATTCGCGGCCGCTTCTAGATGGCCGGC', 'ACCGGTTAATACTAGTAGCGGCCGCTGCAG', 'g']];
 const HEADINGS = ['name', 'uses', 'category', 'description'];
 
 var ALL_BRICKS;
@@ -312,6 +298,24 @@ FEATURES             Location/Qualifiers
         id = brick.id.replace(/clone-/g, '');
         var part = getObjects(ALL_BRICKS, 'name', id);
         console.log(part);
+
+        console.log(part[0].category);
+
+        var cat = part[0].category;
+        var seq = part[0].partsequence;
+        var last3 = seq.substr(seq.length - 3).toLowerCase();
+
+        // if category has RBS and last 3 characters are not atg
+        if (cat.includes('RBS') && last3 !== 'atg') {
+            // add atg
+            part[0].partsequence += 'atg';
+        }
+
+        // if category has coding_sequence and last 3 characters are atg
+        if (cat.includes('coding_sequence') && last3 === 'atg') {
+            // remove the last 3 characters
+            part[0].partsequence = part[0].partsquence.slice(0, -3);
+        }
 
         genbank_sequence += `    ${part[0].category}      ${sequenceCount}..${sequenceCount + part[0].partsequence.length}\r\n`;
 
