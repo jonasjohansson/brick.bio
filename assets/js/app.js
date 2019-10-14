@@ -310,7 +310,7 @@ FEATURES             Location/Qualifiers
             // part[0].partsequence += 'atg';
         }
 
-        if (cat.includes('coding_sequence') && first === 'atg') {
+        if (cat.includes('coding_sequence') && first !== 'atg') {
             part[0].partsequence = 'atg' + seq;
             // part[0].partsequence = part[0].partsequence.slice(3);
         }
