@@ -297,24 +297,20 @@ FEATURES             Location/Qualifiers
     for (let brick of bricks) {
         id = brick.id.replace(/clone-/g, '');
         var part = getObjects(ALL_BRICKS, 'name', id);
-        console.log(part);
 
-        console.log(part[0].category);
+        /* check RBS and CDS */
 
         var cat = part[0].category;
         var seq = part[0].partsequence;
-        var last3 = seq.substr(seq.length - 3).toLowerCase();
+        var last = seq.substr(seq.length - 3).toLowerCase();
+        var first = seq.substr(0, 3).toLowerCase();
 
-        // if category has RBS and last 3 characters are not atg
-        if (cat.includes('RBS') && last3 !== 'atg') {
-            // add atg
+        if (cat.includes('RBS') && last !== 'atg') {
             part[0].partsequence += 'atg';
         }
 
-        // if category has coding_sequence and last 3 characters are atg
-        if (cat.includes('coding_sequence') && last3 === 'atg') {
-            // remove the last 3 characters
-            part[0].partsequence = part[0].partsquence.slice(0, -3);
+        if (cat.includes('coding_sequence') && first === 'atg') {
+            part[0].partsequence = part[0].partsequence.slice(3);
         }
 
         genbank_sequence += `    ${part[0].category}      ${sequenceCount}..${sequenceCount + part[0].partsequence.length}\r\n`;
